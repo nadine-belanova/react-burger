@@ -1,0 +1,25 @@
+.modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    background: #1C1C21;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr 60px;
+}
+
+.closeIcon {
+    text-align: right;
+    padding: 11px 0 0;
+    cursor: pointer;
+}
+
+.content {
+    text-align: center;
+}
