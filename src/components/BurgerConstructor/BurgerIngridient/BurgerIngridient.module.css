@@ -1,0 +1,14 @@
+.card {
+    position: relative;
+    cursor: pointer;
+}
+
+.price {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 1;
+}
+
+.priceIcon {
+    line-height: 14px;
+}
