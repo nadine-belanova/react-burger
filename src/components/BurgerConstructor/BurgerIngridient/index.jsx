@@ -38,7 +38,7 @@ const BurgerIngridient = ({ ingridient }) => {
 };
 
 BurgerIngridient.propTypes = {
-    ingridient: IngridientType,
+    ingridient: IngridientType.isRequired,
 };
 
 export default BurgerIngridient

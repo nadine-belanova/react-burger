@@ -1,63 +1,39 @@
 import { useEffect, useState } from 'react';
 
+import { fetchIngredients } from './utils/burger-api'
+
 import AppHeader from './components/AppHeader'
 import BurgerConstructor from './components/BurgerConstructor'
 import BurgerIngredients from './components/BurgerIngredients'
 
 import './App.css';
 
-const INGRIDIENTS_URL = 'https://norma.nomoreparties.space/api/ingredients';
-
 function App() {
-  const [isError, setIsError] = useState(false);
-  const [buns, setBuns] = useState([]);
-  const [selectedBun, setSelectedBun] = useState();
-  const [mains, setMains] = useState([]);
-  const [sauces, setSauces] = useState([]);
-  const [selectedIngridients, setSelectedIngridients] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [ingridients, setIngridients] = useState([]);
 
   useEffect(() => {
-    fetch(INGRIDIENTS_URL)
-      .then((result) => result.json())
-      .then(result => {
-        if (result.success && Array.isArray(result.data)) {
-          console.log(result.data);
-          setBuns(result.data.filter(item => item.type === 'bun'));
-          setMains(result.data.filter(item => item.type === 'main'));
-          setSauces(result.data.filter(item => item.type === 'sauce'));
-        } else {
-          setIsError(true);
-        }
-      })
-      .catch(error => {
-        setIsError(true);
-      })
+    fetchIngredients().then(resultData => {
+      setIngridients(resultData)
+    }).catch(error => {
+      console.log({ error });
+      setErrorMessage(error.message)
+    });
   }, []);
 
-  useEffect(() => {
-    if (buns.length > 0) {
-      const selectedIndex = Math.floor(Math.random() * buns.length);
-      setSelectedBun(buns[selectedIndex]);
-    }
-  }, [buns]);
-
-  useEffect(() => {
-    if (mains.length > 0 || sauces.length > 0) {
-      setSelectedIngridients(mains.concat(sauces));
-    }
-  }, [mains, sauces]);
 
   return (
     <div className="App">
-      {!isError && <>
+      {errorMessage === '' && <>
         <AppHeader />
         <main>
-          <BurgerConstructor buns={buns} mains={mains} sauces={sauces} />
-          <BurgerIngredients selectedBun={selectedBun} selectedIngridients={selectedIngridients} />
+          <BurgerConstructor ingridients={ingridients} />
+          <BurgerIngredients ingridients={ingridients} />
         </main>
       </>}
-      {isError && <div className="m-20">
-        Что-то пошло не так...
+      {errorMessage !== '' && <div className="m-20">
+        <div className="mb-10 text text_type_main-default">Что-то пошло не так...</div>
+        <div className="text text_type_main-small text_color_inactive">{errorMessage}</div>
       </div>}
     </div>
   );

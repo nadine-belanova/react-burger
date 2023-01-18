@@ -22,7 +22,8 @@ const Modal = ({ children, header, onClose }) => {
     }, []);
 
     return createPortal(
-        <ModalOverlay onClose={onClose}>
+        <>
+            <ModalOverlay onClose={onClose} />
             <div className={`${styles.modal} p-10`} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.header}>
                     <div className="text text_type_main-large">{header}</div>
@@ -32,15 +33,15 @@ const Modal = ({ children, header, onClose }) => {
                     {children}
                 </div>
             </div>
-        </ModalOverlay>,
+        </>,
         modalRoot
     );
 }
 
 Modal.propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.element.isRequired,
     header: PropTypes.string,
-    onClose: PropTypes.func,
+    onClose: PropTypes.func.isRequired,
 };
 
 export default Modal

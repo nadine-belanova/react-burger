@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 
@@ -8,7 +8,7 @@ import OrderDetails from '../OrderDetails';
 
 import styles from './BurgerIngridients.module.css';
 
-const BurgerIngridients = ({ selectedBun, selectedIngridients }) => {
+const BurgerIngridients = ({ ingridients }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const handleOpenModal = () => {
@@ -18,6 +18,16 @@ const BurgerIngridients = ({ selectedBun, selectedIngridients }) => {
     const handleCloseModal = () => {
         setIsModalOpen(false);
     }
+
+    const buns = useMemo(() => ingridients.filter(item => item.type === 'bun'), [ingridients]);
+    const selectedIngridients = useMemo(() => ingridients.filter(item => item.type !== 'bun'), [ingridients]);
+    const selectedBun = useMemo(() => {
+        if (buns.length > 0) {
+            const selectedIndex = Math.floor(Math.random() * buns.length);
+            return buns[selectedIndex];
+        }
+        return null;
+    }, [buns])
 
     return (
         <>
@@ -36,7 +46,7 @@ const BurgerIngridients = ({ selectedBun, selectedIngridients }) => {
                 }
                 <div className={`${styles.selectedIngridients} mt-4 mb-4 custom-scroll`}>
                     {selectedIngridients.map(ingridient => (
-                        <div className={`${styles.ingridient} mr-4 ml-4`}>
+                        <div key={ingridient._id} className={`${styles.ingridient} mr-4 ml-4`}>
                             <div className="pt-10 pb-10">
                                 <DragIcon type="primary" />
                             </div>
@@ -77,8 +87,7 @@ const BurgerIngridients = ({ selectedBun, selectedIngridients }) => {
 };
 
 BurgerIngridients.propTypes = {
-    selectedBun: IngridientType,
-    selectedBun: PropTypes.arrayOf(IngridientType),
+    ingridients: PropTypes.arrayOf(IngridientType).isRequired,
 };
 
 export default BurgerIngridients
