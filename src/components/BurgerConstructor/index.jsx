@@ -10,9 +10,9 @@ import BurgerIngridient from './BurgerIngridient'
 import styles from './BurgerConstructor.module.css';
 
 const BurgerConstructor = ({ ingridients }) => {
-    const buns = useMemo(() => ingridients.filter(item => item.type === 'bun'));
-    const mains = useMemo(() => ingridients.filter(item => item.type === 'main'));
-    const sauces = useMemo(() => ingridients.filter(item => item.type === 'sauce'));
+    const buns = useMemo(() => ingridients.filter(item => item.type === 'bun'), [ingridients]);
+    const mains = useMemo(() => ingridients.filter(item => item.type === 'main'), [ingridients]);
+    const sauces = useMemo(() => ingridients.filter(item => item.type === 'sauce'), [ingridients]);
     return (
         <div className={`${styles.constructor} mt-10 mb-10`} >
             <div className="text text_type_main-large">Соберите бургер</div>
