@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-
-import { fetchIngredients } from './utils/burger-api'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AppHeader from './components/AppHeader'
 import BurgerConstructor from './components/BurgerConstructor'
@@ -8,32 +7,30 @@ import BurgerIngredients from './components/BurgerIngredients'
 
 import './App.css';
 
+import { fetchIngredients } from './services/ingredientsSlice';
+import { selectIngredientsOptions } from './services/ingredientsSlice'
+
 function App() {
-  const [errorMessage, setErrorMessage] = useState('');
-  const [ingridients, setIngridients] = useState([]);
+  const dispatch = useDispatch();
+  const { isLoading, ingredientsError } = useSelector(selectIngredientsOptions)
 
   useEffect(() => {
-    fetchIngredients().then(resultData => {
-      setIngridients(resultData)
-    }).catch(error => {
-      console.log({ error });
-      setErrorMessage(error.message)
-    });
+    dispatch(fetchIngredients());
   }, []);
 
 
   return (
     <div className="App">
-      {errorMessage === '' && <>
+      {!isLoading && ingredientsError === '' && <>
         <AppHeader />
         <main>
-          <BurgerConstructor ingridients={ingridients} />
-          <BurgerIngredients ingridients={ingridients} />
+          <BurgerConstructor />
+          <BurgerIngredients />
         </main>
       </>}
-      {errorMessage !== '' && <div className="m-20">
+      {ingredientsError !== '' && <div className="m-20">
         <div className="mb-10 text text_type_main-default">Что-то пошло не так...</div>
-        <div className="text text_type_main-small text_color_inactive">{errorMessage}</div>
+        <div className="text text_type_main-small text_color_inactive">{ingredientsError}</div>
       </div>}
     </div>
   );
