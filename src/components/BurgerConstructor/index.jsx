@@ -59,7 +59,7 @@ const BurgerConstructor = () => {
   const handleRemoveIngredient = (_id) => {
     dispatch(removeIngredient(_id))
   }
-  console.log(isTopBunHover, isBottomBunHover, isTopBunHover || isBottomBunHover, (isTopBunHover || isBottomBunHover) ? styles.constructorElementHover : '');
+
   return (
     <>
       <div className={styles.ingredients}>
