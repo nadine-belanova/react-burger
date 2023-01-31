@@ -1,92 +1,54 @@
-import { useState, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
-import { createOrder, removeOrder, selectIngredientsOptions } from '../../services/ingredientsSlice';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import OrderDetails from '../OrderDetails';
+import { selectIngredientsOptions } from '../../services/ingredientsSlice'
+
+import BurgerIngredient from './BurgerIngredient'
 
 import styles from './BurgerIngredients.module.css';
 
 const BurgerIngredients = () => {
-  const dispatch = useDispatch();
   const { ingredients } = useSelector(selectIngredientsOptions)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
   const buns = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
-  const selectedIngredients = useMemo(() => ingredients.filter(item => item.type !== 'bun'), [ingredients]);
-  const selectedBun = useMemo(() => {
-    if (buns.length > 0) {
-      const selectedIndex = Math.floor(Math.random() * buns.length);
-      return buns[selectedIndex];
-    }
-    return null;
-  }, [buns])
-
-  const handleOpenModal = () => {
-    dispatch(createOrder([selectedBun, ...selectedIngredients]));
-    setIsModalOpen(true);
-  }
-
-  const handleCloseModal = () => {
-    dispatch(removeOrder());
-    setIsModalOpen(false);
-  }
-
+  const mains = useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
+  const sauces = useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
   return (
-    <>
-      <div className={styles.ingredients}>
-        {selectedBun &&
-          <div className={`${styles.ingredient} mt-25 mr-4 ml-4`}>
-            <div className="pt-10 pb-10" />
-            <ConstructorElement
-              type="top"
-              isLocked={true}
-              text={selectedBun.name}
-              price={selectedBun.price}
-              thumbnail={selectedBun.image}
-            />
-          </div>
-        }
-        <div className={`${styles.selectedIngredients} mt-4 mb-4 custom-scroll`}>
-          {selectedIngredients.map(ingredient => (
-            <div key={ingredient._id} className={`${styles.ingredient} mr-4 ml-4`}>
-              <div className="pt-10 pb-10">
-                <DragIcon type="primary" />
-              </div>
-              <ConstructorElement
-                key={ingredient._id}
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-              />
-            </div>
+    <div className={`${styles.constructor} mt-10 mb-10`} >
+      <div className="text text_type_main-large">Соберите бургер</div>
+      <div className={`${styles.tabs} mt-5`}>
+        <Tab value="one" active={true} onClick={() => { }}>
+          Булки
+        </Tab>
+        <Tab value="two" active={false} onClick={() => { }}>
+          Соусы
+        </Tab>
+        <Tab value="three" active={false} onClick={() => { }}>
+          Начинки
+        </Tab>
+      </div>
+      <div className={`${styles.ingredients} custom-scroll`}>
+        <div className={`${styles.heading} text text_type_main-medium mt-10`}>Булки</div>
+        <div className={styles.section}>
+          {buns.map(ingredient => (
+            <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
           ))}
         </div>
-        {selectedBun &&
-          <div className={`${styles.ingredient} mr-4 ml-4`}>
-            <div className="pt-10 pb-10" />
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={selectedBun.name}
-              price={selectedBun.price}
-              thumbnail={selectedBun.image}
-            />
-          </div>
-        }
-        <div className={`${styles.total} mt-10 mr-4 ml-4  mb-25`}>
-          <span className={`${styles.totalPrice} text text_type_digits-medium mr-10`}>
-            <span className="mr-2">1233</span>
-            <CurrencyIcon type="primary" />
-          </span>
-          <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>
-            Оформить заказ
-          </Button>
+        <div className={`${styles.heading} text text_type_main-medium mt-10`}>Соусы</div>
+        <div className={styles.section}>
+          {sauces.map(ingredient => (
+            <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
+          ))}
+        </div>
+        <div className={`${styles.heading} text text_type_main-medium mt-10`}>Начинки</div>
+        <div className={styles.section}>
+          {mains.map(ingredient => (
+            <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
+          ))}
         </div>
       </div>
-      {isModalOpen && <OrderDetails onClose={handleCloseModal} />}
-    </>
+    </div>
   )
 };
 

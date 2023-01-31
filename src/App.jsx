@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AppHeader from './components/AppHeader'
-import BurgerConstructor from './components/BurgerConstructor'
 import BurgerIngredients from './components/BurgerIngredients'
+import BurgerConstructor from './components/BurgerConstructor'
 
 import './App.css';
 
@@ -24,8 +24,8 @@ function App() {
       {!isLoading && ingredientsError === '' && <>
         <AppHeader />
         <main>
-          <BurgerConstructor />
           <BurgerIngredients />
+          <BurgerConstructor />
         </main>
       </>}
       {ingredientsError !== '' && <div className="m-20">
