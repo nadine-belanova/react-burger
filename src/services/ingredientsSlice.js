@@ -10,13 +10,14 @@ export const ingredientsSlice = createSlice({
     ingredients: [],
     selectedIngredients: [],
     currentIngredient: null,
-    order: {}
+    order: {},
+    orderError: ''
   },
   reducers: {
     ingredientsLoading: (state) => {
       state.isLoading = true;
     },
-    ingredientsError: (state, action) => {
+    ingredientsFailed: (state, action) => {
       state.isLoading = false;
       state.ingredientsError = action.payload;
     },
@@ -30,12 +31,25 @@ export const ingredientsSlice = createSlice({
     removeIngredient: (state, action) => {
       state.selectedIngredients = state.selectedIngredients.filter(ingredient => ingredient.id !== action.payload);
     },
+    orderReceived: (state, action) => {
+      state.order = action.payload
+    },
+    orderFailed: (state, action) => {
+      state.orderError = action.payload
+    },
+    removeOrder: (state) => {
+      state.order = {};
+    },
   },
 })
 
 const { actions, reducer } = ingredientsSlice
 
-export const { ingredientsLoading, ingredientsError, ingredientsReceived, addIngredient, removeIngredient } = actions
+export const {
+  ingredientsLoading, ingredientsFailed, ingredientsReceived,
+  addIngredient, removeIngredient,
+  orderReceived, orderFailed, removeOrder
+} = actions
 
 export const selectIngredientsOptions = (state) => state.ingredients;
 
@@ -44,7 +58,15 @@ export const fetchIngredients = () => (dispatch) => {
   burgerAPI.fetchIngredients().then(resultData => {
     dispatch(ingredientsReceived(resultData));
   }).catch(error => {
-    dispatch(ingredientsError(error.message));
+    dispatch(ingredientsFailed(error.message));
+  });
+}
+
+export const createOrder = (ingredients) => (dispatch) => {
+  burgerAPI.createOrder(ingredients).then(orderData => {
+    dispatch(orderReceived(orderData));
+  }).catch(error => {
+    dispatch(orderFailed(error.message));
   });
 }
 

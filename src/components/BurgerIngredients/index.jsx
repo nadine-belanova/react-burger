@@ -1,27 +1,17 @@
 import { useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 
-import { selectIngredientsOptions } from '../../services/ingredientsSlice'
-
-import { IngredientType } from '../../types'
+import { createOrder, removeOrder, selectIngredientsOptions } from '../../services/ingredientsSlice';
 
 import OrderDetails from '../OrderDetails';
 
 import styles from './BurgerIngredients.module.css';
 
 const BurgerIngredients = () => {
+  const dispatch = useDispatch();
   const { ingredients } = useSelector(selectIngredientsOptions)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  }
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  }
 
   const buns = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
   const selectedIngredients = useMemo(() => ingredients.filter(item => item.type !== 'bun'), [ingredients]);
@@ -32,6 +22,16 @@ const BurgerIngredients = () => {
     }
     return null;
   }, [buns])
+
+  const handleOpenModal = () => {
+    dispatch(createOrder([selectedBun, ...selectedIngredients]));
+    setIsModalOpen(true);
+  }
+
+  const handleCloseModal = () => {
+    dispatch(removeOrder());
+    setIsModalOpen(false);
+  }
 
   return (
     <>
