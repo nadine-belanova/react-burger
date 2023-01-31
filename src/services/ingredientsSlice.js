@@ -25,11 +25,16 @@ export const ingredientsSlice = createSlice({
       state.isLoading = false;
       state.ingredients = action.payload
     },
-    addIngredient: (state, action) => {
-      state.selectedIngredients = [...state.selectedIngredients, action.payload];
+    addSelectedIngredient: (state, action) => {
+      const newIngredient = state.ingredients.find(ingredient => ingredient._id === action.payload);
+      state.selectedIngredients = [...state.selectedIngredients, newIngredient];
+    },
+    addSelectedBun: (state, action) => {
+      const newBun = state.ingredients.find(ingredient => ingredient._id === action.payload);
+      state.selectedIngredients = [...state.selectedIngredients.filter(item => item.type !== 'bun'), newBun];
     },
     removeIngredient: (state, action) => {
-      state.selectedIngredients = state.selectedIngredients.filter(ingredient => ingredient.id !== action.payload);
+      state.selectedIngredients = [...state.selectedIngredients.filter(ingredient => ingredient._id !== action.payload)];
     },
     orderReceived: (state, action) => {
       state.order = action.payload
@@ -39,6 +44,7 @@ export const ingredientsSlice = createSlice({
     },
     removeOrder: (state) => {
       state.order = {};
+      state.selectedIngredients = [];
     },
   },
 })
@@ -47,7 +53,7 @@ const { actions, reducer } = ingredientsSlice
 
 export const {
   ingredientsLoading, ingredientsFailed, ingredientsReceived,
-  addIngredient, removeIngredient,
+  addSelectedIngredient, addSelectedBun, removeIngredient,
   orderReceived, orderFailed, removeOrder
 } = actions
 

@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 import AppHeader from './components/AppHeader'
 import BurgerIngredients from './components/BurgerIngredients'
@@ -24,8 +26,10 @@ function App() {
       {!isLoading && ingredientsError === '' && <>
         <AppHeader />
         <main>
-          <BurgerIngredients />
-          <BurgerConstructor />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
         </main>
       </>}
       {ingredientsError !== '' && <div className="m-20">
