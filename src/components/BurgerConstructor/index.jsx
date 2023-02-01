@@ -2,25 +2,26 @@ import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 
-import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { addSelectedBun, addSelectedIngredient, removeIngredient, createOrder, removeOrder, selectIngredientsOptions } from '../../services/ingredientsSlice';
+import { addSelectedBun, addSelectedIngredient, createOrder, removeOrder, selectIngredientsOptions } from '../../services/ingredientsSlice';
 
 import OrderDetails from '../OrderDetails';
+import InnerIngredient from './InnerIngredient';
 
 import styles from './BurgerConstructor.module.css';
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const { selectedIngredients } = useSelector(selectIngredientsOptions);
+  const { selectedIngredients, selectedBun } = useSelector(selectIngredientsOptions);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const selectedBun = useMemo(() => selectedIngredients.find(item => item.type === 'bun'), [selectedIngredients]);
-  const innerIngredients = useMemo(() => selectedIngredients.filter(item => item.type !== 'bun'), [selectedIngredients]);
-  const totalPrice = useMemo(() => selectedIngredients.reduce((accum, item) => (accum + item.price), 0), [selectedIngredients]);
+  const allIngredients = useMemo(() => selectedBun ? [selectedBun, ...selectedIngredients] : [...selectedIngredients])
+  const totalPrice = useMemo(() => allIngredients
+    .reduce((accum, item) => (accum + item.price), 0), [selectedIngredients]);
 
   const handleOpenModal = () => {
-    dispatch(createOrder([selectedBun, ...innerIngredients]));
+    dispatch(createOrder(allIngredients));
     setIsModalOpen(true);
   }
 
@@ -56,9 +57,6 @@ const BurgerConstructor = () => {
       dispatch(addSelectedBun(item._id))
     },
   });
-  const handleRemoveIngredient = (_id) => {
-    dispatch(removeIngredient(_id))
-  }
 
   return (
     <>
@@ -82,18 +80,8 @@ const BurgerConstructor = () => {
           }
         </div>
         <div className={`${styles.selectedIngredients} mt-4 mr-1 mb-4 ml-1 custom-scroll ${isIngridientsHover ? styles.constructorElementHover : ''}`} ref={dropIngridientsTarget}>
-          {innerIngredients.map((ingredient, index) => (
-            <div key={index} className={`${styles.ingredient} mr-4 ml-4`}>
-              <div className="pt-10 pb-10">
-                <DragIcon type="primary" />
-              </div>
-              <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-                handleClose={() => { handleRemoveIngredient(ingredient._id) }}
-              />
-            </div>
+          {selectedIngredients.map((ingredient, index) => (
+            <InnerIngredient key={index} ingredient={ingredient} index={index} />
           ))}
         </div>
         <div className={`${styles.ingredient} mr-4 ml-4`} ref={dropBottomBunTarget}>

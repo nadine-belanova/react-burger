@@ -6,24 +6,20 @@
 }
 
 .ingredients>div {
-  flex-grow: 0;
-  flex-shrink: 1;
-  flex-basis: auto;
+  flex-grow: 1;
+}
+
+.selectedIngredients {
+  display: grid;
+  gap: 16px;
+  min-height: 200px;
+  overflow: auto;
 }
 
 .ingredient {
   display: grid;
   grid-template-columns: 32px 1fr;
   height: fit-content;
-}
-
-.selectedIngredients {
-  flex-grow: 1;
-  display: grid;
-  gap: 16px;
-  max-height: 300px;
-  min-height: 200px;
-  overflow: auto;
 }
 
 .total {
