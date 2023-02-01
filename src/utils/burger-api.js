@@ -1,9 +1,13 @@
 const NORMA_API = 'https://norma.nomoreparties.space/api'
 
+const checkResponse = res => {
+  return res.ok ? res.json() : res.json().then(err => Promise.reject(err));
+};
+
 function fetchIngredients() {
   return new Promise(function (resolve, reject) {
     fetch(`${NORMA_API}/ingredients`)
-      .then((result) => result.json())
+      .then(checkResponse)
       .then(result => {
         if (result.success && Array.isArray(result.data)) {
           resolve(result.data);
@@ -29,7 +33,7 @@ function createOrder(ingredients) {
       },
       body: JSON.stringify(data)
     })
-      .then((result) => result.json())
+      .then(checkResponse)
       .then(result => {
         if (result.success) {
           resolve({

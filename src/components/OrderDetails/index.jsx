@@ -11,11 +11,13 @@ const OrderDetails = ({ onClose }) => {
   return (
     <Modal onClose={onClose}>
       <>
-        <div className="text text_type_digits-large mt-5 mb-8">{order.number}</div>
+        <div className="text text_type_digits-large mt-5 mb-8">{order?.number}</div>
         <div className="text text_type_main-default">Идентификатор заказа</div>
-        <div className="text text_type_main-default mt-15 mb-15"><img src={DoneIcon} /></div>
+        <div className="text text_type_main-default mt-15 mb-15"><img src={DoneIcon} alt="" /></div>
         <div className="text text_type_main-small">Ваш заказ начали готовить</div>
-        <div className="text text_type_main-small text_color_inactive mt-2 mb-5">Дождитесь готовности на орбитальной станции</div>
+        <div className="text text_type_main-small text_color_inactive mt-2 mb-5">
+          Дождитесь готовности на орбитальной станции
+        </div>
       </>
     </Modal>
   )

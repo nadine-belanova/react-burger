@@ -11,7 +11,7 @@ export const ingredientsSlice = createSlice({
     selectedBun: null,
     selectedIngredients: [],
     currentIngredient: null,
-    order: {},
+    order: null,
     orderError: ''
   },
   reducers: {
@@ -39,20 +39,21 @@ export const ingredientsSlice = createSlice({
     sortIngridients: (state, action) => {
       const { fromIndex, toIndex } = action.payload;
       const newSelectedIngredients = [...state.selectedIngredients];
-      const fromItem = newSelectedIngredients[fromIndex]
+      const fromItem = newSelectedIngredients[fromIndex];
       newSelectedIngredients.splice(fromIndex, 1);
       newSelectedIngredients.splice(toIndex, 0, fromItem);
-      state.selectedIngredients = newSelectedIngredients
+      state.selectedIngredients = newSelectedIngredients;
     },
     orderReceived: (state, action) => {
-      state.order = action.payload
+      state.order = action.payload;
     },
     orderFailed: (state, action) => {
-      state.orderError = action.payload
+      state.orderError = action.payload;
     },
     removeOrder: (state) => {
-      state.order = {};
+      state.order = null;
       state.selectedIngredients = [];
+      state.selectedBun = null;
     },
   },
 })

@@ -3,22 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import AppHeader from './components/AppHeader'
-import BurgerIngredients from './components/BurgerIngredients'
-import BurgerConstructor from './components/BurgerConstructor'
+import AppHeader from '../AppHeader';
+import BurgerIngredients from '../BurgerIngredients';
+import BurgerConstructor from '../BurgerConstructor';
 
 import './App.css';
 
-import { fetchIngredients } from './services/ingredientsSlice';
-import { selectIngredientsOptions } from './services/ingredientsSlice'
+import { fetchIngredients, selectIngredientsOptions } from '../../services/ingredientsSlice';
 
 function App() {
   const dispatch = useDispatch();
-  const { isLoading, ingredientsError } = useSelector(selectIngredientsOptions)
+  const { isLoading, ingredientsError } = useSelector(selectIngredientsOptions);
 
   useEffect(() => {
     dispatch(fetchIngredients());
-  }, []);
+  }, [dispatch]);
 
 
   return (

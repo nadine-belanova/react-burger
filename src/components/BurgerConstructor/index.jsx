@@ -16,9 +16,13 @@ const BurgerConstructor = () => {
   const { selectedIngredients, selectedBun } = useSelector(selectIngredientsOptions);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const allIngredients = useMemo(() => selectedBun ? [selectedBun, ...selectedIngredients] : [...selectedIngredients])
-  const totalPrice = useMemo(() => allIngredients
-    .reduce((accum, item) => (accum + item.price), 0), [selectedIngredients]);
+  const allIngredients = useMemo(() => (
+    selectedBun ? [selectedBun, ...selectedIngredients, selectedBun] : [...selectedIngredients]
+  ), [selectedIngredients, selectedBun]);
+
+  const totalPrice = useMemo(() => (
+    allIngredients.reduce((accum, item) => (accum + item.price), 0)
+  ), [allIngredients]);
 
   const handleOpenModal = () => {
     dispatch(createOrder(allIngredients));
@@ -107,7 +111,13 @@ const BurgerConstructor = () => {
             <span className="mr-2">{totalPrice}</span>
             <CurrencyIcon type="primary" />
           </span>
-          <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>
+          <Button
+            htmlType="button"
+            type="primary"
+            size="large"
+            onClick={handleOpenModal}
+            disabled={!selectedBun || selectedIngredients.length === 0}
+          >
             Оформить заказ
           </Button>
         </div>
