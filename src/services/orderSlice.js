@@ -10,14 +10,14 @@ export const orderSlice = createSlice({
     orderError: ''
   },
   reducers: {
-    orderLoading: (state, action) => {
+    orderRequest: (state, action) => {
       state.orderLoading = true;
     },
-    orderReceived: (state, action) => {
+    orderSuccess: (state, action) => {
       state.orderLoading = false;
       state.order = action.payload;
     },
-    orderFailed: (state, action) => {
+    orderError: (state, action) => {
       state.orderLoading = false;
       state.orderError = action.payload;
     },
@@ -34,11 +34,11 @@ export const { orderLoading, orderReceived, orderFailed, removeOrder } = actions
 export const selectOrderOptions = (state) => state.order;
 
 export const createOrder = (order) => (dispatch) => {
-  dispatch(orderLoading());
+  dispatch(orderRequest());
   burgerAPI.createOrder(order).then(orderData => {
-    dispatch(orderReceived(orderData));
+    dispatch(orderSuccess(orderData));
   }).catch(error => {
-    dispatch(orderFailed(error.message));
+    dispatch(orderError(error.message));
   });
 }
 

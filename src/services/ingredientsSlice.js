@@ -12,16 +12,16 @@ export const ingredientsSlice = createSlice({
     selectedIngredients: [],
   },
   reducers: {
-    ingredientsLoading: (state) => {
+    ingredientsRequest: (state) => {
       state.isLoading = true;
     },
-    ingredientsFailed: (state, action) => {
-      state.isLoading = false;
-      state.ingredientsError = action.payload;
-    },
-    ingredientsReceived: (state, action) => {
+    ingredientsSuccess: (state, action) => {
       state.isLoading = false;
       state.ingredients = action.payload
+    },
+    ingredientsError: (state, action) => {
+      state.isLoading = false;
+      state.ingredientsError = action.payload;
     },
     addSelectedIngredient: (state, action) => {
       const newIngredient = state.ingredients.find(ingredient => ingredient._id === action.payload);
@@ -58,11 +58,11 @@ export const {
 export const selectIngredientsOptions = (state) => state.ingredients;
 
 export const fetchIngredients = () => (dispatch) => {
-  dispatch(ingredientsLoading());
+  dispatch(ingredientsRequest());
   burgerAPI.fetchIngredients().then(resultData => {
-    dispatch(ingredientsReceived(resultData));
+    dispatch(ingredientsSuccess(resultData));
   }).catch(error => {
-    dispatch(ingredientsFailed(error.message));
+    dispatch(ingredientsError(error.message));
   });
 }
 
