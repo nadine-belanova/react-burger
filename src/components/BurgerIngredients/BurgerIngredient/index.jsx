@@ -8,12 +8,12 @@ import { selectIngredientsOptions } from '../../../services/ingredientsSlice';
 
 import { IngredientType } from '../../../types'
 
-import OrderDetails from '../../IngredientDetails'
+import IngredientDetails from '../../IngredientDetails'
 
 import styles from './BurgerIngredient.module.css';
 
 const BurgerIngredient = ({ ingredient }) => {
-  const { selectedIngredients } = useSelector(selectIngredientsOptions);
+  const { selectedBun, selectedIngredients } = useSelector(selectIngredientsOptions);
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleOpenModal = () => {
@@ -24,7 +24,8 @@ const BurgerIngredient = ({ ingredient }) => {
     setIsModalOpen(false);
   }
 
-  const count = useMemo(() => selectedIngredients.filter(item => item._id === ingredient._id).length, [selectedIngredients]);
+  const allIngredients = useMemo(() => selectedBun ? [selectedBun, ...selectedIngredients, selectedBun] : selectedIngredients, [selectedBun, selectedIngredients]);
+  const count = useMemo(() => allIngredients.filter(item => item._id === ingredient._id).length, [allIngredients]);
 
   const [{ opacity }, ref] = useDrag({
     type: ingredient.type === 'bun' ? 'bun' : 'ingridients',
@@ -45,7 +46,7 @@ const BurgerIngredient = ({ ingredient }) => {
         </div>
         <div className="text text_type_main-default">{ingredient.name}</div>
       </div>
-      {isModalOpen && <OrderDetails ingredient={ingredient} onClose={handleCloseModal} />}
+      {isModalOpen && <IngredientDetails ingredient={ingredient} onClose={handleCloseModal} />}
     </>
   )
 };

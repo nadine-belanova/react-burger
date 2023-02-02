@@ -10,9 +10,6 @@ export const ingredientsSlice = createSlice({
     ingredients: [],
     selectedBun: null,
     selectedIngredients: [],
-    currentIngredient: null,
-    order: null,
-    orderError: ''
   },
   reducers: {
     ingredientsLoading: (state) => {
@@ -44,14 +41,7 @@ export const ingredientsSlice = createSlice({
       newSelectedIngredients.splice(toIndex, 0, fromItem);
       state.selectedIngredients = newSelectedIngredients;
     },
-    orderReceived: (state, action) => {
-      state.order = action.payload;
-    },
-    orderFailed: (state, action) => {
-      state.orderError = action.payload;
-    },
-    removeOrder: (state) => {
-      state.order = null;
+    clearSelectedIngredients: (state) => {
       state.selectedIngredients = [];
       state.selectedBun = null;
     },
@@ -62,8 +52,7 @@ const { actions, reducer } = ingredientsSlice
 
 export const {
   ingredientsLoading, ingredientsFailed, ingredientsReceived,
-  addSelectedIngredient, addSelectedBun, removeIngredient, sortIngridients,
-  orderReceived, orderFailed, removeOrder
+  addSelectedIngredient, addSelectedBun, removeIngredient, sortIngridients, clearSelectedIngredients
 } = actions
 
 export const selectIngredientsOptions = (state) => state.ingredients;
@@ -74,14 +63,6 @@ export const fetchIngredients = () => (dispatch) => {
     dispatch(ingredientsReceived(resultData));
   }).catch(error => {
     dispatch(ingredientsFailed(error.message));
-  });
-}
-
-export const createOrder = (ingredients) => (dispatch) => {
-  burgerAPI.createOrder(ingredients).then(orderData => {
-    dispatch(orderReceived(orderData));
-  }).catch(error => {
-    dispatch(orderFailed(error.message));
   });
 }
 

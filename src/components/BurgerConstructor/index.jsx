@@ -4,7 +4,8 @@ import { useDrop } from 'react-dnd';
 
 import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { addSelectedBun, addSelectedIngredient, createOrder, removeOrder, selectIngredientsOptions } from '../../services/ingredientsSlice';
+import { addSelectedBun, addSelectedIngredient, selectIngredientsOptions, clearSelectedIngredients } from '../../services/ingredientsSlice';
+import { createOrder, removeOrder } from '../../services/orderSlice';
 
 import OrderDetails from '../OrderDetails';
 import InnerIngredient from './InnerIngredient';
@@ -30,6 +31,7 @@ const BurgerConstructor = () => {
   }
 
   const handleCloseModal = () => {
+    dispatch(clearSelectedIngredients());
     dispatch(removeOrder());
     setIsModalOpen(false);
   }
