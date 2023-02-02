@@ -29,7 +29,7 @@ export const orderSlice = createSlice({
 
 const { actions, reducer } = orderSlice
 
-export const { orderLoading, orderReceived, orderFailed, removeOrder } = actions
+export const { orderRequest, orderSuccess, orderError, removeOrder } = actions
 
 export const selectOrderOptions = (state) => state.order;
 

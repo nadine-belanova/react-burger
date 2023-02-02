@@ -51,7 +51,7 @@ export const ingredientsSlice = createSlice({
 const { actions, reducer } = ingredientsSlice
 
 export const {
-  ingredientsLoading, ingredientsFailed, ingredientsReceived,
+  ingredientsRequest, ingredientsSuccess, ingredientsError,
   addSelectedIngredient, addSelectedBun, removeIngredient, sortIngridients, clearSelectedIngredients
 } = actions
 
