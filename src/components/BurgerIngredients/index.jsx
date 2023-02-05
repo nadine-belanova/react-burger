@@ -1,93 +1,95 @@
-import { useState, useMemo } from 'react';
-import { ConstructorElement, Button, DragIcon, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
+import { useMemo, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import { IngridientType } from '../../types'
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import OrderDetails from '../OrderDetails';
+import { selectIngredientsOptions } from '../../services/ingredientsSlice'
 
-import styles from './BurgerIngridients.module.css';
+import BurgerIngredient from './BurgerIngredient'
 
-const BurgerIngridients = ({ ingridients }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+import styles from './BurgerIngredients.module.css';
 
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
+const BurgerIngredients = () => {
+  const { ingredients } = useSelector(selectIngredientsOptions)
+
+  const [currentTab, setCurrentTab] = useState('bunsTab')
+
+  const buns = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
+  const mains = useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
+  const sauces = useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
+
+  const bunsRef = useRef(null);
+  const mainsRef = useRef(null);
+  const saucesRef = useRef(null);
+  const handleTabClick = (tabValue) => {
+    setCurrentTab(tabValue);
+    if (tabValue === 'bunsTab' && bunsRef.current) {
+      bunsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
+    if (tabValue === 'mainsTab' && mainsRef.current) {
+      mainsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    if (tabValue === 'saucesTab' && saucesRef.current) {
+      saucesRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+  const handleIngridientsScroll = (e) => {
+    const scrollTop = e.target.scrollTop;
+    const bunsRect = bunsRef.current.getBoundingClientRect();
+    const isBunsVisible = (bunsRect.height - scrollTop) > 0;
+    const mainsRect = mainsRef.current.getBoundingClientRect();
+    const isMainsVisible = (bunsRect.height + mainsRect.height - scrollTop) > 0;
+    if (isBunsVisible) {
+      setCurrentTab('bunsTab');
+    } else if (isMainsVisible) {
+      setCurrentTab('mainsTab');
+    } else {
+      setCurrentTab('saucesTab');
+    }
+  }
 
-    const buns = useMemo(() => ingridients.filter(item => item.type === 'bun'), [ingridients]);
-    const selectedIngridients = useMemo(() => ingridients.filter(item => item.type !== 'bun'), [ingridients]);
-    const selectedBun = useMemo(() => {
-        if (buns.length > 0) {
-            const selectedIndex = Math.floor(Math.random() * buns.length);
-            return buns[selectedIndex];
-        }
-        return null;
-    }, [buns])
-
-    return (
-        <>
-            <div className={styles.ingridients}>
-                {selectedBun &&
-                    <div className={`${styles.ingridient} mt-25 mr-4 ml-4`}>
-                        <div className="pt-10 pb-10" />
-                        <ConstructorElement
-                            type="top"
-                            isLocked={true}
-                            text={selectedBun.name}
-                            price={selectedBun.price}
-                            thumbnail={selectedBun.image}
-                        />
-                    </div>
-                }
-                <div className={`${styles.selectedIngridients} mt-4 mb-4 custom-scroll`}>
-                    {selectedIngridients.map(ingridient => (
-                        <div key={ingridient._id} className={`${styles.ingridient} mr-4 ml-4`}>
-                            <div className="pt-10 pb-10">
-                                <DragIcon type="primary" />
-                            </div>
-                            <ConstructorElement
-                                key={ingridient._id}
-                                text={ingridient.name}
-                                price={ingridient.price}
-                                thumbnail={ingridient.image}
-                            />
-                        </div>
-                    ))}
-                </div>
-                {selectedBun &&
-                    <div className={`${styles.ingridient} mr-4 ml-4`}>
-                        <div className="pt-10 pb-10" />
-                        <ConstructorElement
-                            type="bottom"
-                            isLocked={true}
-                            text={selectedBun.name}
-                            price={selectedBun.price}
-                            thumbnail={selectedBun.image}
-                        />
-                    </div>
-                }
-                <div className={`${styles.total} mt-10 mr-4 ml-4  mb-25`}>
-                    <span className={`${styles.totalPrice} text text_type_digits-medium mr-10`}>
-                        <span className="mr-2">1233</span>
-                        <CurrencyIcon type="primary" />
-                    </span>
-                    <Button htmlType="button" type="primary" size="large" onClick={handleOpenModal}>
-                        Оформить заказ
-                    </Button>
-                </div>
-            </div>
-            {isModalOpen && <OrderDetails onClose={handleCloseModal} />}
-        </>
-    )
+  return (
+    <div className={`${styles.constructor} mt-10 mb-10`} >
+      <div className="text text_type_main-large">Соберите бургер</div>
+      <div className={`${styles.tabs} mt-5`}>
+        <Tab value="bunsTab" active={currentTab === 'bunsTab'} onClick={handleTabClick}>
+          Булки
+        </Tab>
+        <Tab value="mainsTab" active={currentTab === 'mainsTab'} onClick={handleTabClick}>
+          Соусы
+        </Tab>
+        <Tab value="saucesTab" active={currentTab === 'saucesTab'} onClick={handleTabClick}>
+          Начинки
+        </Tab>
+      </div>
+      <div className={`${styles.ingredients} custom-scroll`} onScroll={handleIngridientsScroll}>
+        <div ref={bunsRef}>
+          <div className={`${styles.heading} text text_type_main-medium mt-10`}>Булки</div>
+          <div className={styles.section}>
+            {buns.map(ingredient => (
+              <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
+            ))}
+          </div>
+        </div>
+        <div ref={mainsRef}>
+          <div className={`${styles.heading} text text_type_main-medium mt-10`}>Соусы</div>
+          <div className={styles.section}>
+            {sauces.map(ingredient => (
+              <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
+            ))}
+          </div>
+        </div>
+        <div ref={saucesRef}>
+          <div className={`${styles.heading} text text_type_main-medium mt-10`} ref={saucesRef}>Начинки</div>
+          <div className={styles.section}>
+            {mains.map(ingredient => (
+              <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 };
 
-BurgerIngridients.propTypes = {
-    ingridients: PropTypes.arrayOf(IngridientType).isRequired,
-};
-
-export default BurgerIngridients
+export default BurgerIngredients

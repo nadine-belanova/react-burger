@@ -1,0 +1,22 @@
+.constructor {
+  height: calc(100vh - 280px);
+}
+
+.tabs {
+  display: flex;
+}
+
+.ingredients {
+  height: 100%;
+  overflow: auto;
+}
+
+.heading {
+  text-align: left;
+}
+
+.section {
+  display: grid;
+  grid-gap: 24px;
+  grid-template-columns: repeat(auto-fit, 272px);
+}

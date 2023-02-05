@@ -1,22 +1,74 @@
-.constructor {
-    height: calc(100vh - 280px);
+.ingredients {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  overflow: hidden;
 }
 
-.tabs {
-    display: flex;
+.ingredients>div {
+  flex-grow: 1;
 }
 
-.ingridients {
-    height: 100%;
-    overflow: auto;
+.selectedIngredients {
+  display: grid;
+  gap: 16px;
+  min-height: 200px;
+  overflow: auto;
 }
 
-.heading {
-    text-align: left;
+.ingredient {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  height: fit-content;
 }
 
-.section {
-    display: grid;
-    grid-gap: 24px;
-    grid-template-columns: repeat(auto-fit, 272px);
+.total {
+  text-align: right;
+}
+
+.totalPrice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  font-size: 28px;
+  line-height: 24px;
+}
+
+.constructorElement {
+  padding: 16px 24px;
+  display: inline-block;
+  background: #2f2f37;
+  max-width: 536px;
+  width: 100%;
+  min-height: 80px;
+  font-family: 'Jet Brains Mono';
+  font-size: 16px;
+  line-height: 24px;
+  color: #F2F2F3;
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+
+.constructorElementHover {
+  box-shadow: 1px 1px #ffb300, -1px -1px #ffb300;
+}
+
+.constructorElementPosTop {
+  border-radius: 88px 88px 40px 40px;
+}
+
+.constructorElementPosBottom {
+  border-radius: 40px 40px 88px 88px;
+}
+
+.constructorElementRow {
+  display: flex;
+  align-items: center;
+}
+
+.constructorElementText {
+  line-height: 24px;
+  flex-grow: 1;
+  margin: 12px;
 }
