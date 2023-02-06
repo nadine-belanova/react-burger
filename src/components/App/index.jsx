@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import AppHeader from '../AppHeader';
-import BurgerIngredients from '../BurgerIngredients';
-import BurgerConstructor from '../BurgerConstructor';
+import ConstructorPage from '../../pages/Constructor';
+import LoginPage from '../../pages/Login';
+import RegisterPage from '../../pages/Register';
+import ForgotPasswordPage from '../../pages/ForgotPassword';
+import ResetPasswordPage from '../../pages/ResetPassword';
 
 import './App.css';
 
@@ -19,22 +20,25 @@ function App() {
     dispatch(fetchIngredients());
   }, [dispatch]);
 
-
   return (
     <div className="App">
-      {!isLoading && ingredientsError === '' && <>
-        <AppHeader />
-        <main>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </DndProvider>
-        </main>
-      </>}
-      {ingredientsError !== '' && <div className="m-20">
-        <div className="mb-10 text text_type_main-default">Что-то пошло не так...</div>
-        <div className="text text_type_main-small text_color_inactive">{ingredientsError}</div>
-      </div>}
+      {!isLoading && ingredientsError === '' && (
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<ConstructorPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
+          </Routes>
+        </BrowserRouter>
+      )}
+      {ingredientsError !== '' && (
+        <div className="m-20">
+          <div className="mb-10 text text_type_main-default">Что-то пошло не так...</div>
+          <div className="text text_type_main-small text_color_inactive">{ingredientsError}</div>
+        </div>
+      )}
     </div>
   );
 }
