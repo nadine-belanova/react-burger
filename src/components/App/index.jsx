@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import ConstructorPage from '../../pages/Constructor';
+import ProfilePage from '../../pages/Profile';
 import LoginPage from '../../pages/Login';
 import RegisterPage from '../../pages/Register';
 import ForgotPasswordPage from '../../pages/ForgotPassword';
@@ -26,6 +27,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<ConstructorPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
