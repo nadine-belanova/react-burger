@@ -15,7 +15,10 @@ const AppHeader = () => (
       </span>
       <span>Конструктор</span>
     </NavLink>
-    <NavLink to="/" className={`${styles.menuItem} pt-4 pr-5 pb-4 pl-5`}>
+    <NavLink
+      to="/profile/orders"
+      className={({ isActive }) => `${isActive ? styles.selectedMenuItem : styles.menuItem} pt-4 pr-5 pb-4 pl-5`}
+    >
       <span className={`${styles.menuItemIcon} mr-2`}>
         <ListIcon type="secondary" />
       </span>
@@ -25,7 +28,7 @@ const AppHeader = () => (
       <Logo />
     </NavLink>
     <NavLink
-      to="/profile"
+      to="/profile/info"
       className={({ isActive }) => `${isActive ? styles.selectedMenuItem : styles.menuItem} pt-4 pr-5 pb-4 pl-5`}
     >
       <span className={`${styles.menuItemIcon} mr-2`}>

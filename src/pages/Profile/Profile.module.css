@@ -10,12 +10,14 @@
 }
 
 .profileNavItem {
+  color: #f2f2f3;
   padding: 17px 0;
+  text-decoration: none;
 }
 
 .profileNavItemInactive {
   composes: profileNavItem;
-  padding: 17px 0;
+  color: #8585ad;
   cursor: pointer;
 }
 

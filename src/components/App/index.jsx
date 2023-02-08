@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ConstructorPage from '../../pages/Constructor';
 import IngredientPage from '../../pages/Ingredient';
 import ProfilePage from '../../pages/Profile';
+import PersonalInfoPage from '../../pages/PersonalInfo';
+import OrdersPage from '../../pages/Orders';
 import LoginPage from '../../pages/Login';
 import RegisterPage from '../../pages/Register';
 import ForgotPasswordPage from '../../pages/ForgotPassword';
@@ -29,7 +31,10 @@ function App() {
           <Routes>
             <Route path="/" element={<ConstructorPage />} />
             <Route path="/ingredients/:ingredientId" element={<IngredientPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile" element={<ProfilePage />}>
+              <Route path="info" element={<PersonalInfoPage />} />
+              <Route path="orders" element={<OrdersPage />} />
+            </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
