@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import ingredientsReducer from './ingredientsSlice';
 import orderReducer from './orderSlice';
-import authReducer from './authSlice';
 
 import { compose, applyMiddleware } from 'redux';
 const composeEnhancers =
@@ -16,7 +15,6 @@ export default configureStore(
     reducer: {
       ingredients: ingredientsReducer,
       order: orderReducer,
-      auth: authReducer,
     },
   },
   enhancer

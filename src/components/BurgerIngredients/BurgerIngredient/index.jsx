@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { selectIngredientsOptions } from '../../../services/ingredientsSlice';
+import { selectIngredientsOptions } from '../../../store/ingredientsSlice';
 
 import { IngredientType } from '../../../types';
 

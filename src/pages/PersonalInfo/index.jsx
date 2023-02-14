@@ -1,9 +1,13 @@
 import { useState } from 'react';
+
 import { Input, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useAuth } from '../../services/auth';
+
 const PersonalInfo = () => {
-  const [name] = useState('');
-  const [email] = useState('');
+  let { user } = useAuth();
+  const [name] = useState(user.name);
+  const [email] = useState(user.email);
   const [password] = useState('');
 
   // const onNameChange = (e) => {

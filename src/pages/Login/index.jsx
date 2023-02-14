@@ -1,20 +1,18 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import burgerAPI from '../../burger-api';
-import { setUserData } from '../../services/authSlice';
+import { useAuth } from '../../services/auth';
 
 import AppHeader from '../../components/AppHeader';
 
 import styles from './Login.module.css';
 
 const Login = () => {
-  const dispatch = useDispatch();
+  let { signIn } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,11 +31,9 @@ const Login = () => {
   };
 
   const handleLoginClick = () => {
-    burgerAPI
-      .login(email, password)
+    signIn(email, password)
       .then((result) => {
         if (result.success) {
-          dispatch(setUserData(result));
           navigate('/');
         } else {
           NotificationManager.error(result.message);

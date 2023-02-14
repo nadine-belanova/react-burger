@@ -47,6 +47,46 @@ export function login(email, password) {
   });
 }
 
+export function getUser(accessToken) {
+  return new Promise(function (resolve, reject) {
+    fetch(`${NORMA_API}/auth/user`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(checkResponse)
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export function getToken(refreshToken) {
+  return new Promise(function (resolve, reject) {
+    const data = {
+      token: refreshToken,
+    };
+    fetch(`${NORMA_API}/auth/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(checkResponse)
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export function logout(refreshToken) {
   return new Promise(function (resolve, reject) {
     const data = {

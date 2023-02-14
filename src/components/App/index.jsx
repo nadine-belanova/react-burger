@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import { ProvideAuth } from '../../services/auth';
+
+import { ProtectedRouteElement } from '../ProtectedRouteElement';
 import ConstructorPage from '../../pages/Constructor';
 import IngredientPage from '../../pages/Ingredient';
 import ProfilePage from '../../pages/Profile';
@@ -14,7 +17,7 @@ import ResetPasswordPage from '../../pages/ResetPassword';
 
 import './App.css';
 
-import { fetchIngredients, selectIngredientsOptions } from '../../services/ingredientsSlice';
+import { fetchIngredients, selectIngredientsOptions } from '../../store/ingredientsSlice';
 
 function App() {
   const dispatch = useDispatch();
@@ -27,20 +30,25 @@ function App() {
   return (
     <div className="App">
       {!isLoading && ingredientsError === '' && (
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<ConstructorPage />} />
-            <Route path="/ingredients/:ingredientId" element={<IngredientPage />} />
-            <Route path="/profile" element={<ProfilePage />}>
-              <Route path="info" element={<PersonalInfoPage />} />
-              <Route path="orders" element={<OrdersPage />} />
-            </Route>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-          </Routes>
-        </BrowserRouter>
+        <ProvideAuth>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<ProtectedRouteElement isForUser element={<ConstructorPage />} />} />
+              <Route
+                path="/ingredients/:ingredientId"
+                element={<ProtectedRouteElement isForUser element={<IngredientPage />} />}
+              />
+              <Route path="/profile" element={<ProtectedRouteElement isForUser element={<ProfilePage />} />}>
+                <Route path="info" element={<PersonalInfoPage />} />
+                <Route path="orders" element={<OrdersPage />} />
+              </Route>
+              <Route path="/login" element={<ProtectedRouteElement element={<LoginPage />} />} />
+              <Route path="/register" element={<ProtectedRouteElement element={<RegisterPage />} />} />
+              <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPasswordPage />} />} />
+              <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPasswordPage />} />} />
+            </Routes>
+          </BrowserRouter>
+        </ProvideAuth>
       )}
       {ingredientsError !== '' && (
         <div className="m-20">

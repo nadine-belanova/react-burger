@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { removeIngredient, sortIngridients } from '../../../services/ingredientsSlice';
+import { removeIngredient, sortIngridients } from '../../../store/ingredientsSlice';
 
 import styles from '../BurgerConstructor.module.css';
 

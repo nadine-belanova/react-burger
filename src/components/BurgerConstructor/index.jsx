@@ -4,8 +4,13 @@ import { useDrop } from 'react-dnd';
 
 import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { addSelectedBun, addSelectedIngredient, selectIngredientsOptions, clearSelectedIngredients } from '../../services/ingredientsSlice';
-import { createOrder, removeOrder } from '../../services/orderSlice';
+import {
+  addSelectedBun,
+  addSelectedIngredient,
+  selectIngredientsOptions,
+  clearSelectedIngredients,
+} from '../../store/ingredientsSlice';
+import { createOrder, removeOrder } from '../../store/orderSlice';
 
 import OrderDetails from '../OrderDetails';
 import InnerIngredient from './InnerIngredient';
@@ -17,50 +22,49 @@ const BurgerConstructor = () => {
   const { selectedIngredients, selectedBun } = useSelector(selectIngredientsOptions);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const allIngredients = useMemo(() => (
-    selectedBun ? [selectedBun, ...selectedIngredients, selectedBun] : [...selectedIngredients]
-  ), [selectedIngredients, selectedBun]);
+  const allIngredients = useMemo(
+    () => (selectedBun ? [selectedBun, ...selectedIngredients, selectedBun] : [...selectedIngredients]),
+    [selectedIngredients, selectedBun]
+  );
 
-  const totalPrice = useMemo(() => (
-    allIngredients.reduce((accum, item) => (accum + item.price), 0)
-  ), [allIngredients]);
+  const totalPrice = useMemo(() => allIngredients.reduce((accum, item) => accum + item.price, 0), [allIngredients]);
 
   const handleOpenModal = () => {
     dispatch(createOrder(allIngredients));
     setIsModalOpen(true);
-  }
+  };
 
   const handleCloseModal = () => {
     dispatch(clearSelectedIngredients());
     dispatch(removeOrder());
     setIsModalOpen(false);
-  }
+  };
 
   const [{ isTopBunHover }, dropTopBunTarget] = useDrop({
     accept: 'bun',
-    collect: monitor => ({
-      isTopBunHover: monitor.isOver()
+    collect: (monitor) => ({
+      isTopBunHover: monitor.isOver(),
     }),
     drop(item) {
-      dispatch(addSelectedBun(item._id))
+      dispatch(addSelectedBun(item._id));
     },
   });
   const [{ isIngridientsHover }, dropIngridientsTarget] = useDrop({
     accept: 'ingridients',
-    collect: monitor => ({
-      isIngridientsHover: monitor.isOver()
+    collect: (monitor) => ({
+      isIngridientsHover: monitor.isOver(),
     }),
     drop(item) {
-      dispatch(addSelectedIngredient(item._id))
+      dispatch(addSelectedIngredient(item._id));
     },
   });
   const [{ isBottomBunHover }, dropBottomBunTarget] = useDrop({
     accept: 'bun',
-    collect: monitor => ({
-      isBottomBunHover: monitor.isOver()
+    collect: (monitor) => ({
+      isBottomBunHover: monitor.isOver(),
     }),
     drop(item) {
-      dispatch(addSelectedBun(item._id))
+      dispatch(addSelectedBun(item._id));
     },
   });
 
@@ -69,44 +73,61 @@ const BurgerConstructor = () => {
       <div className={styles.ingredients}>
         <div className={`${styles.ingredient} mt-25 mr-4 ml-4`} ref={dropTopBunTarget}>
           <div className="pt-10 pb-10" />
-          {selectedBun && <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={selectedBun.name}
-            price={selectedBun.price}
-            thumbnail={selectedBun.image}
-            extraClass={(isTopBunHover || isBottomBunHover) ? styles.constructorElementHover : ''}
-          />}
-          {!selectedBun &&
-            <div className={`${styles.constructorElement} ${styles.constructorElementPosTop} ${(isTopBunHover || isBottomBunHover) ? styles.constructorElementHover : ''}`}>
+          {selectedBun && (
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={selectedBun.name}
+              price={selectedBun.price}
+              thumbnail={selectedBun.image}
+              extraClass={isTopBunHover || isBottomBunHover ? styles.constructorElementHover : ''}
+            />
+          )}
+          {!selectedBun && (
+            <div
+              className={`${styles.constructorElement} ${styles.constructorElementPosTop} ${
+                isTopBunHover || isBottomBunHover ? styles.constructorElementHover : ''
+              }`}
+            >
               <span className={styles.constructorElementRow}>
                 <span className={styles.constructorElementText}>Тащи сюда булку</span>
               </span>
             </div>
-          }
+          )}
         </div>
-        <div className={`${styles.selectedIngredients} mt-4 mr-1 mb-4 ml-1 custom-scroll ${isIngridientsHover ? styles.constructorElementHover : ''}`} ref={dropIngridientsTarget}>
+        <div
+          className={`${styles.selectedIngredients} mt-4 mr-1 mb-4 ml-1 custom-scroll ${
+            isIngridientsHover ? styles.constructorElementHover : ''
+          }`}
+          ref={dropIngridientsTarget}
+        >
           {selectedIngredients.map((ingredient, index) => (
             <InnerIngredient key={index} ingredient={ingredient} index={index} />
           ))}
         </div>
         <div className={`${styles.ingredient} mr-4 ml-4`} ref={dropBottomBunTarget}>
           <div className="pt-10 pb-10" />
-          {selectedBun && <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={selectedBun.name}
-            price={selectedBun.price}
-            thumbnail={selectedBun.image}
-            extraClass={(isTopBunHover || isBottomBunHover) ? styles.constructorElementHover : ''}
-          />}
-          {!selectedBun &&
-            <div className={`${styles.constructorElement} ${styles.constructorElementPosBottom} ${(isTopBunHover || isBottomBunHover) ? styles.constructorElementHover : ''}`}>
+          {selectedBun && (
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={selectedBun.name}
+              price={selectedBun.price}
+              thumbnail={selectedBun.image}
+              extraClass={isTopBunHover || isBottomBunHover ? styles.constructorElementHover : ''}
+            />
+          )}
+          {!selectedBun && (
+            <div
+              className={`${styles.constructorElement} ${styles.constructorElementPosBottom} ${
+                isTopBunHover || isBottomBunHover ? styles.constructorElementHover : ''
+              }`}
+            >
               <span className={styles.constructorElementRow}>
                 <span className={styles.constructorElementText}>Тащи сюда булку</span>
               </span>
             </div>
-          }
+          )}
         </div>
         <div className={`${styles.total} mt-10 mr-4 ml-4  mb-25`}>
           <span className={`${styles.totalPrice} text text_type_digits-medium mr-10`}>
@@ -126,7 +147,7 @@ const BurgerConstructor = () => {
       </div>
       {isModalOpen && <OrderDetails onClose={handleCloseModal} />}
     </>
-  )
+  );
 };
 
-export default BurgerConstructor
+export default BurgerConstructor;

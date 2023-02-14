@@ -1,26 +1,21 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
-import burgerAPI from '../../burger-api';
-import { selectAuthOptions, clearUSerData } from '../../services/authSlice';
+import { useAuth } from '../../services/auth';
 
 import AppHeader from '../../components/AppHeader';
 
 import styles from './Profile.module.css';
 
 const Profile = () => {
-  const dispatch = useDispatch();
+  let { signOut } = useAuth();
   const navigate = useNavigate();
-  const { refreshToken } = useSelector(selectAuthOptions);
 
   const handleLoginClick = () => {
-    burgerAPI
-      .logout(refreshToken)
+    signOut()
       .then((result) => {
         if (result.success) {
-          dispatch(clearUSerData(result));
           navigate('/login');
         } else {
           NotificationManager.error(result.message);

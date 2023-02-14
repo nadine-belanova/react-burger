@@ -6,15 +6,14 @@ import 'react-notifications/lib/notifications.css';
 
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import burgerAPI from '../../burger-api';
-import { setUserData } from '../../services/authSlice';
+import { useAuth } from '../../services/auth';
 
 import AppHeader from '../../components/AppHeader';
 
 import styles from '../Login/Login.module.css';
 
 const Register = () => {
-  const dispatch = useDispatch();
+  let { registerUser } = useAuth();
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -37,11 +36,9 @@ const Register = () => {
   };
 
   const handleRegisterClick = () => {
-    burgerAPI
-      .registerUser(name, email, password)
+    registerUser(name, email, password)
       .then((result) => {
         if (result.success) {
-          dispatch(setUserData(result));
           navigate('/');
         } else {
           NotificationManager.error(result.message);
