@@ -33,19 +33,16 @@ function App() {
         <ProvideAuth>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<ProtectedRouteElement isForUser element={<ConstructorPage />} />} />
-              <Route
-                path="/ingredients/:ingredientId"
-                element={<ProtectedRouteElement isForUser element={<IngredientPage />} />}
-              />
-              <Route path="/profile" element={<ProtectedRouteElement isForUser element={<ProfilePage />} />}>
+              <Route path="/" element={<ConstructorPage />} />
+              <Route path="/ingredients/:ingredientId" element={<IngredientPage />} />
+              <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage />} />}>
                 <Route path="info" element={<PersonalInfoPage />} />
                 <Route path="orders" element={<OrdersPage />} />
               </Route>
-              <Route path="/login" element={<ProtectedRouteElement element={<LoginPage />} />} />
-              <Route path="/register" element={<ProtectedRouteElement element={<RegisterPage />} />} />
-              <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPasswordPage />} />} />
-              <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPasswordPage />} />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
             </Routes>
           </BrowserRouter>
         </ProvideAuth>
