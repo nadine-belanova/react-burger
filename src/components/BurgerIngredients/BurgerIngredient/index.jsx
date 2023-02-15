@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -12,11 +12,12 @@ import { IngredientType } from '../../../types';
 import styles from './BurgerIngredient.module.css';
 
 const BurgerIngredient = ({ ingredient }) => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { selectedBun, selectedIngredients } = useSelector(selectIngredientsOptions);
 
   const showIngredientDetails = () => {
-    navigate(`/ingredients/${ingredient._id}`);
+    navigate(`/ingredients/${ingredient._id}`, { state: { background: location } });
   };
 
   const allIngredients = useMemo(
