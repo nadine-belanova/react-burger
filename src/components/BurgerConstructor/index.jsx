@@ -77,7 +77,7 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={selectedBun.name}
+              text={`${selectedBun.name}\n(верх)`}
               price={selectedBun.price}
               thumbnail={selectedBun.image}
               extraClass={isTopBunHover || isBottomBunHover ? styles.constructorElementHover : ''}
@@ -111,7 +111,7 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={selectedBun.name}
+              text={`${selectedBun.name}\n(низ)`}
               price={selectedBun.price}
               thumbnail={selectedBun.image}
               extraClass={isTopBunHover || isBottomBunHover ? styles.constructorElementHover : ''}
