@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
@@ -10,6 +10,7 @@ import { useAuth } from '../../services/auth';
 import styles from './Login.module.css';
 
 const Login = () => {
+  const location = useLocation();
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -27,7 +28,7 @@ const Login = () => {
     signIn(email, password)
       .then((result) => {
         if (result.success) {
-          navigate('/');
+          navigate(location.state?.from || '/');
         } else {
           NotificationManager.error(result.message);
         }

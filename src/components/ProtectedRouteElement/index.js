@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 import { useAuth } from '../../services/auth';
 
 export function ProtectedRouteElement({ element }) {
+  const location = useLocation();
   const { getUser, ...auth } = useAuth();
 
   const [isUserLoaded, setUserLoaded] = useState(false);
@@ -21,5 +22,5 @@ export function ProtectedRouteElement({ element }) {
     return null;
   }
 
-  return auth.user ? element : <Navigate to="/login" replace />;
+  return auth.user ? element : <Navigate to="/login" replace state={{ from: location.pathname }} />;
 }
