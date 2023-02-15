@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
@@ -12,9 +12,16 @@ import AppHeader from '../../components/AppHeader';
 import styles from '../Login/Login.module.css';
 
 const ResetPassword = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
+
+  useEffect(() => {
+    if (location.state?.from !== '/forgot-password') {
+      navigate('/login');
+    }
+  }, [navigate, location.state]);
 
   const onPasswordChange = (e) => {
     setPassword(e.target.value);

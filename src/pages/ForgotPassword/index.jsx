@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
@@ -12,6 +12,7 @@ import AppHeader from '../../components/AppHeader';
 import styles from '../Login/Login.module.css';
 
 const ForgotPassword = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
 
@@ -19,18 +20,13 @@ const ForgotPassword = () => {
     setEmail(e.target.value);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      handleResetPasswordClick();
-    }
-  };
-
-  const handleResetPasswordClick = () => {
+  const handleResetPasswordClick = (event) => {
+    event.preventDefault();
     burgerAPI
       .sendResetPasswordCode(email)
       .then((result) => {
         if (result.success) {
-          navigate('/reset-password');
+          navigate('/reset-password', { state: { from: location.pathname } });
         } else {
           NotificationManager.error(result.message);
         }
@@ -44,7 +40,7 @@ const ForgotPassword = () => {
     <>
       <AppHeader />
       <main className={styles.login}>
-        <form>
+        <form onSubmit={handleResetPasswordClick}>
           <div className="text text_type_main-medium mb-6">Восстановление пароля</div>
           <div className="mb-6">
             <EmailInput
@@ -53,7 +49,6 @@ const ForgotPassword = () => {
               name={'email'}
               placeholder="Укажите e-mail"
               isIcon={false}
-              onKeyDown={handleKeyDown}
             />
           </div>
           <div className="mb-20">
