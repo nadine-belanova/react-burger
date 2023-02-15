@@ -22,7 +22,7 @@ const Ingredient = () => {
       <div>
         <div className="text text_type_main-large mt-4 mb-8">Детали ингредиента</div>
         <div>
-          <img src={ingredient.image_large} alt="" />
+          <img src={ingredient.image_large} alt={ingredient.name} />
         </div>
         <div className="text text_type_main-medium mt-4 mb-8">{ingredient.name}</div>
         <div className={`${styles.pfc} text text_type_main-default mb-5`}>

@@ -18,7 +18,7 @@ const OrderDetails = ({ onClose }) => {
             <div className="text text_type_digits-large mt-5 mb-8">{order?.number}</div>
             <div className="text text_type_main-default">Идентификатор заказа</div>
             <div className="text text_type_main-default mt-15 mb-15">
-              <img src={DoneIcon} alt="" />
+              <img src={DoneIcon} alt="Заказ оформлен" />
             </div>
             <div className="text text_type_main-small">Ваш заказ начали готовить</div>
             <div className="text text_type_main-small text_color_inactive mt-2 mb-5">
