@@ -30,13 +30,8 @@ const ResetPassword = () => {
     setCode(e.target.value);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      handleResetPasswordClick();
-    }
-  };
-
-  const handleResetPasswordClick = () => {
+  const handleResetPasswordClick = (event) => {
+    event.preventDefault();
     burgerAPI
       .resetPassword(password, code)
       .then((result) => {
@@ -55,7 +50,7 @@ const ResetPassword = () => {
     <>
       <AppHeader />
       <main className={styles.login}>
-        <form>
+        <form onSubmit={handleResetPasswordClick}>
           <div className="text text_type_main-medium mb-6">Восстановление пароля</div>
           <div className="mb-6">
             <PasswordInput
@@ -64,21 +59,13 @@ const ResetPassword = () => {
               name={'password'}
               placeholder="Введите новый пароль"
               extraClass="mb-2"
-              onKeyDown={handleKeyDown}
             />
           </div>
           <div className="mb-6">
-            <Input
-              type="text"
-              onChange={onCodeChange}
-              value={code}
-              name={'name'}
-              placeholder="Введите код из письма"
-              onKeyDown={handleKeyDown}
-            />
+            <Input type="text" onChange={onCodeChange} value={code} name={'name'} placeholder="Введите код из письма" />
           </div>
           <div className="mb-20">
-            <Button htmlType="button" type="primary" size="large" onClick={handleResetPasswordClick}>
+            <Button htmlType="submit" type="primary" size="large">
               Сохранить
             </Button>
           </div>

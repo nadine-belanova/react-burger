@@ -24,13 +24,8 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      handleLoginClick();
-    }
-  };
-
-  const handleLoginClick = () => {
+  const handleLoginClick = (event) => {
+    event.preventDefault();
     signIn(email, password)
       .then((result) => {
         if (result.success) {
@@ -48,28 +43,16 @@ const Login = () => {
     <>
       <AppHeader />
       <main className={styles.login}>
-        <form>
+        <form onSubmit={handleLoginClick}>
           <div className="text text_type_main-medium mb-6">Вход</div>
           <div className="mb-6">
-            <EmailInput
-              onChange={onEmailChange}
-              value={email}
-              name={'email'}
-              isIcon={false}
-              onKeyDown={handleKeyDown}
-            />
+            <EmailInput onChange={onEmailChange} value={email} name={'email'} isIcon={false} />
           </div>
           <div className="mb-6">
-            <PasswordInput
-              onChange={onPasswordChange}
-              value={password}
-              name={'password'}
-              extraClass="mb-2"
-              onKeyDown={handleKeyDown}
-            />
+            <PasswordInput onChange={onPasswordChange} value={password} name={'password'} extraClass="mb-2" />
           </div>
           <div className="mb-20">
-            <Button htmlType="button" type="primary" size="large" onClick={handleLoginClick}>
+            <Button htmlType="submit" type="primary" size="large">
               Войти
             </Button>
           </div>

@@ -29,13 +29,8 @@ const Register = () => {
     setPassword(e.target.value);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      handleRegisterClick();
-    }
-  };
-
-  const handleRegisterClick = () => {
+  const handleRegisterClick = (event) => {
+    event.preventDefault();
     registerUser(name, email, password)
       .then((result) => {
         if (result.success) {
@@ -53,38 +48,19 @@ const Register = () => {
     <>
       <AppHeader />
       <main className={styles.login}>
-        <form>
+        <form onSubmit={handleRegisterClick}>
           <div className="text text_type_main-medium mb-6">Регистрация</div>
           <div className="mb-6">
-            <Input
-              type="text"
-              onChange={onNameChange}
-              value={name}
-              name={'name'}
-              placeholder="Имя"
-              onKeyDown={handleKeyDown}
-            />
+            <Input type="text" onChange={onNameChange} value={name} name={'name'} placeholder="Имя" />
           </div>
           <div className="mb-6">
-            <EmailInput
-              onChange={onEmailChange}
-              value={email}
-              name={'email'}
-              isIcon={false}
-              onKeyDown={handleKeyDown}
-            />
+            <EmailInput onChange={onEmailChange} value={email} name={'email'} isIcon={false} />
           </div>
           <div className="mb-6">
-            <PasswordInput
-              onChange={onPasswordChange}
-              value={password}
-              name={'password'}
-              extraClass="mb-2"
-              onKeyDown={handleKeyDown}
-            />
+            <PasswordInput onChange={onPasswordChange} value={password} name={'password'} extraClass="mb-2" />
           </div>
           <div className="mb-20">
-            <Button htmlType="button" type="primary" size="large" onClick={handleRegisterClick}>
+            <Button htmlType="submit" type="primary" size="large">
               Зарегистрироваться
             </Button>
           </div>

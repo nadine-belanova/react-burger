@@ -52,7 +52,7 @@ const ForgotPassword = () => {
             />
           </div>
           <div className="mb-20">
-            <Button htmlType="button" type="primary" size="large" onClick={handleResetPasswordClick}>
+            <Button htmlType="submit" type="primary" size="large">
               Восстановить
             </Button>
           </div>
