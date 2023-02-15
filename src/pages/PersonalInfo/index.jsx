@@ -5,7 +5,7 @@ import { Input, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-
 import { useAuth } from '../../services/auth';
 
 const PersonalInfo = () => {
-  let { user } = useAuth();
+  const { user } = useAuth();
   const [name] = useState(user.name);
   const [email] = useState(user.email);
   const [password] = useState('');

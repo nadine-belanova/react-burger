@@ -10,7 +10,7 @@ import { useAuth } from '../../services/auth';
 import styles from './Login.module.css';
 
 const Login = () => {
-  let { signIn } = useAuth();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

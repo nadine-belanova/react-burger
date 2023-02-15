@@ -7,7 +7,7 @@ import { useAuth } from '../../services/auth';
 import styles from './Profile.module.css';
 
 const Profile = () => {
-  let { signOut } = useAuth();
+  const { signOut } = useAuth();
   const navigate = useNavigate();
 
   const handleLoginClick = () => {

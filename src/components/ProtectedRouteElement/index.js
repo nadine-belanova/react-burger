@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../services/auth';
 
 export function ProtectedRouteElement({ element }) {
-  let { getUser, ...auth } = useAuth();
+  const { getUser, ...auth } = useAuth();
 
   const [isUserLoaded, setUserLoaded] = useState(false);
 
