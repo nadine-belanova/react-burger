@@ -7,8 +7,6 @@ import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-comp
 
 import burgerAPI from '../../burger-api';
 
-import AppHeader from '../../components/AppHeader';
-
 import styles from '../Login/Login.module.css';
 
 const ForgotPassword = () => {
@@ -38,7 +36,6 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <AppHeader />
       <main className={styles.login}>
         <form onSubmit={handleResetPasswordClick}>
           <div className="text text_type_main-medium mb-6">Восстановление пароля</div>

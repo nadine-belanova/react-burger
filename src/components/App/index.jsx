@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { ProvideAuth } from '../../services/auth';
 
+import AppHeader from '../AppHeader';
 import { ProtectedRouteElement } from '../ProtectedRouteElement';
 import ConstructorPage from '../../pages/Constructor';
 import IngredientPage from '../../pages/Ingredient';
@@ -32,6 +33,7 @@ function App() {
       {!isLoading && ingredientsError === '' && (
         <ProvideAuth>
           <BrowserRouter>
+            <AppHeader />
             <Routes>
               <Route path="/" element={<ConstructorPage />} />
               <Route path="/ingredients/:ingredientId" element={<IngredientPage />} />

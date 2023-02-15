@@ -7,8 +7,6 @@ import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burg
 
 import burgerAPI from '../../burger-api';
 
-import AppHeader from '../../components/AppHeader';
-
 import styles from '../Login/Login.module.css';
 
 const ResetPassword = () => {
@@ -48,7 +46,6 @@ const ResetPassword = () => {
 
   return (
     <>
-      <AppHeader />
       <main className={styles.login}>
         <form onSubmit={handleResetPasswordClick}>
           <div className="text text_type_main-medium mb-6">Восстановление пароля</div>

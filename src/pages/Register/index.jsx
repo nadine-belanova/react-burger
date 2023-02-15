@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -7,8 +6,6 @@ import 'react-notifications/lib/notifications.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useAuth } from '../../services/auth';
-
-import AppHeader from '../../components/AppHeader';
 
 import styles from '../Login/Login.module.css';
 
@@ -46,7 +43,6 @@ const Register = () => {
 
   return (
     <>
-      <AppHeader />
       <main className={styles.login}>
         <form onSubmit={handleRegisterClick}>
           <div className="text text_type_main-medium mb-6">Регистрация</div>

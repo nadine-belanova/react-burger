@@ -4,8 +4,6 @@ import 'react-notifications/lib/notifications.css';
 
 import { useAuth } from '../../services/auth';
 
-import AppHeader from '../../components/AppHeader';
-
 import styles from './Profile.module.css';
 
 const Profile = () => {
@@ -28,7 +26,6 @@ const Profile = () => {
 
   return (
     <>
-      <AppHeader />
       <main className={`${styles.profile} pt-30`}>
         <div className={`${styles.profileNav} ml-9 mr-15`}>
           <div className="text text_type_main-medium pt-4 pr-5 pb-4">

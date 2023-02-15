@@ -7,8 +7,6 @@ import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer
 
 import { useAuth } from '../../services/auth';
 
-import AppHeader from '../../components/AppHeader';
-
 import styles from './Login.module.css';
 
 const Login = () => {
@@ -41,7 +39,6 @@ const Login = () => {
 
   return (
     <>
-      <AppHeader />
       <main className={styles.login}>
         <form onSubmit={handleLoginClick}>
           <div className="text text_type_main-medium mb-6">Вход</div>
