@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import burgerAPI from '../burger-api';
-
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState: {
@@ -64,17 +62,5 @@ export const {
 } = actions;
 
 export const selectIngredientsOptions = (state) => state.ingredients;
-
-export const fetchIngredients = () => (dispatch) => {
-  dispatch(ingredientsRequest());
-  burgerAPI
-    .fetchIngredients()
-    .then((resultData) => {
-      dispatch(ingredientsSuccess(resultData));
-    })
-    .catch((error) => {
-      dispatch(ingredientsError(error.message));
-    });
-};
 
 export default reducer;

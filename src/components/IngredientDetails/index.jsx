@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { selectIngredientsOptions } from '../../store/ingredientsSlice';
+import { selectIngredientsOptions } from '../../store/slices/ingredients';
 
 import styles from './IngredientDetails.module.css';
 

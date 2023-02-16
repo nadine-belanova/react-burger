@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { selectOrderOptions } from '../../store/orderSlice';
+import { selectOrderOptions } from '../../store/slices/order';
 
 import Modal from '../Modal';
 import DoneIcon from './DoneIcon.svg';

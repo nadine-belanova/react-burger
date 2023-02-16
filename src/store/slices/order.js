@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import burgerAPI from '../burger-api';
-
 export const orderSlice = createSlice({
   name: 'order',
   initialState: {
@@ -32,17 +30,5 @@ const { actions, reducer } = orderSlice;
 export const { orderRequest, orderSuccess, orderError, removeOrder } = actions;
 
 export const selectOrderOptions = (state) => state.order;
-
-export const createOrder = (order) => (dispatch) => {
-  dispatch(orderRequest());
-  burgerAPI
-    .createOrder(order)
-    .then((orderData) => {
-      dispatch(orderSuccess(orderData));
-    })
-    .catch((error) => {
-      dispatch(orderError(error.message));
-    });
-};
 
 export default reducer;
