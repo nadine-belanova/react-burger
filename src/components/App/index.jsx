@@ -18,7 +18,7 @@ import RegisterPage from '../../pages/Register';
 import ForgotPasswordPage from '../../pages/ForgotPassword';
 import ResetPasswordPage from '../../pages/ResetPassword';
 
-import './App.css';
+import styles from './App.module.css';
 
 import { fetchIngredients, selectIngredientsOptions } from '../../store/ingredientsSlice';
 
@@ -38,7 +38,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className={styles.app}>
       {!isLoading && ingredientsError === '' && (
         <ProvideAuth>
           <AppHeader />
