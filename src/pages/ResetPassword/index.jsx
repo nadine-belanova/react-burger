@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -6,14 +6,14 @@ import 'react-notifications/lib/notifications.css';
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import burgerAPI from '../../burger-api';
+import { useForm } from '../../hooks/useForm';
 
 import styles from '../Login/Login.module.css';
 
 const ResetPassword = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [password, setPassword] = useState('');
-  const [code, setCode] = useState('');
+  const { formValues, handleFormInputChange } = useForm({ password: '', code: '' });
 
   useEffect(() => {
     if (location.state?.from !== '/forgot-password') {
@@ -21,17 +21,16 @@ const ResetPassword = () => {
     }
   }, [navigate, location.state]);
 
-  const onPasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-  const onCodeChange = (e) => {
-    setCode(e.target.value);
-  };
-
-  const handleResetPasswordClick = (event) => {
+  const handleResetPasswordSubmit = (event) => {
     event.preventDefault();
+
+    if (formValues.password === '' || formValues.code === '') {
+      NotificationManager.error('Заполните все поля, пожалуйста');
+      return;
+    }
+
     burgerAPI
-      .resetPassword(password, code)
+      .resetPassword(formValues.password, formValues.code)
       .then((result) => {
         if (result.success) {
           navigate('/login');
@@ -47,19 +46,25 @@ const ResetPassword = () => {
   return (
     <>
       <main className={styles.login}>
-        <form onSubmit={handleResetPasswordClick}>
+        <form onSubmit={handleResetPasswordSubmit}>
           <div className="text text_type_main-medium mb-6">Восстановление пароля</div>
           <div className="mb-6">
             <PasswordInput
-              onChange={onPasswordChange}
-              value={password}
-              name={'password'}
+              onChange={handleFormInputChange}
+              value={formValues.password}
+              name="password"
               placeholder="Введите новый пароль"
               extraClass="mb-2"
             />
           </div>
           <div className="mb-6">
-            <Input type="text" onChange={onCodeChange} value={code} name={'name'} placeholder="Введите код из письма" />
+            <Input
+              type="text"
+              onChange={handleFormInputChange}
+              value={formValues.code}
+              name="name"
+              placeholder="Введите код из письма"
+            />
           </div>
           <div className="mb-20">
             <Button htmlType="submit" type="primary" size="large">

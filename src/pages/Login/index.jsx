@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -6,6 +5,7 @@ import 'react-notifications/lib/notifications.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useAuth } from '../../services/auth';
+import { useForm } from '../../hooks/useForm';
 
 import styles from './Login.module.css';
 
@@ -13,19 +13,17 @@ const Login = () => {
   const location = useLocation();
   const { signIn } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { formValues, handleFormInputChange } = useForm({ email: '', password: '' });
 
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const onPasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleLoginClick = (event) => {
+  const handleLoginSubmit = (event) => {
     event.preventDefault();
-    signIn(email, password)
+
+    if (formValues.email === '' || formValues.password === '') {
+      NotificationManager.error('Заполните все поля, пожалуйста');
+      return;
+    }
+
+    signIn(formValues.email, formValues.password)
       .then((result) => {
         if (result.success) {
           navigate(location.state?.from || '/');
@@ -41,13 +39,18 @@ const Login = () => {
   return (
     <>
       <main className={styles.login}>
-        <form onSubmit={handleLoginClick}>
+        <form onSubmit={handleLoginSubmit}>
           <div className="text text_type_main-medium mb-6">Вход</div>
           <div className="mb-6">
-            <EmailInput onChange={onEmailChange} value={email} name={'email'} isIcon={false} />
+            <EmailInput onChange={handleFormInputChange} value={formValues.email} name="email" isIcon={false} />
           </div>
           <div className="mb-6">
-            <PasswordInput onChange={onPasswordChange} value={password} name={'password'} extraClass="mb-2" />
+            <PasswordInput
+              onChange={handleFormInputChange}
+              value={formValues.password}
+              name="password"
+              extraClass="mb-2"
+            />
           </div>
           <div className="mb-20">
             <Button htmlType="submit" type="primary" size="large">

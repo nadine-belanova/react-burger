@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -6,29 +5,24 @@ import 'react-notifications/lib/notifications.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useAuth } from '../../services/auth';
+import { useForm } from '../../hooks/useForm';
 
 import styles from '../Login/Login.module.css';
 
 const Register = () => {
   const { registerUser } = useAuth();
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { formValues, handleFormInputChange } = useForm({ name: '', email: '', password: '' });
 
-  const onNameChange = (e) => {
-    setName(e.target.value);
-  };
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const onPasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleRegisterClick = (event) => {
+  const handleRegisterSubmit = (event) => {
     event.preventDefault();
-    registerUser(name, email, password)
+
+    if (formValues.name === '' || formValues.email === '' || formValues.password === '') {
+      NotificationManager.error('Заполните все поля, пожалуйста');
+      return;
+    }
+
+    registerUser(formValues.name, formValues.email, formValues.password)
       .then((result) => {
         if (result.success) {
           navigate('/');
@@ -44,16 +38,21 @@ const Register = () => {
   return (
     <>
       <main className={styles.login}>
-        <form onSubmit={handleRegisterClick}>
+        <form onSubmit={handleRegisterSubmit}>
           <div className="text text_type_main-medium mb-6">Регистрация</div>
           <div className="mb-6">
-            <Input type="text" onChange={onNameChange} value={name} name={'name'} placeholder="Имя" />
+            <Input type="text" onChange={handleFormInputChange} value={formValues.name} name="name" placeholder="Имя" />
           </div>
           <div className="mb-6">
-            <EmailInput onChange={onEmailChange} value={email} name={'email'} isIcon={false} />
+            <EmailInput onChange={handleFormInputChange} value={formValues.email} name="email" isIcon={false} />
           </div>
           <div className="mb-6">
-            <PasswordInput onChange={onPasswordChange} value={password} name={'password'} extraClass="mb-2" />
+            <PasswordInput
+              onChange={handleFormInputChange}
+              value={formValues.password}
+              name="password"
+              extraClass="mb-2"
+            />
           </div>
           <div className="mb-20">
             <Button htmlType="submit" type="primary" size="large">

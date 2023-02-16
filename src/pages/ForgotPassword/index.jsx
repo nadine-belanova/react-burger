@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -6,22 +5,25 @@ import 'react-notifications/lib/notifications.css';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import burgerAPI from '../../burger-api';
+import { useForm } from '../../hooks/useForm';
 
 import styles from '../Login/Login.module.css';
 
 const ForgotPassword = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+  const { formValues, handleFormInputChange } = useForm({ email: '' });
 
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleResetPasswordClick = (event) => {
+  const handleResetPasswordSubmit = (event) => {
     event.preventDefault();
+
+    if (formValues.email === '') {
+      NotificationManager.error('Заполните все поля, пожалуйста');
+      return;
+    }
+
     burgerAPI
-      .sendResetPasswordCode(email)
+      .sendResetPasswordCode(formValues.email)
       .then((result) => {
         if (result.success) {
           navigate('/reset-password', { state: { from: location.pathname } });
@@ -37,13 +39,13 @@ const ForgotPassword = () => {
   return (
     <>
       <main className={styles.login}>
-        <form onSubmit={handleResetPasswordClick}>
+        <form onSubmit={handleResetPasswordSubmit}>
           <div className="text text_type_main-medium mb-6">Восстановление пароля</div>
           <div className="mb-6">
             <EmailInput
-              onChange={onEmailChange}
-              value={email}
-              name={'email'}
+              onChange={handleFormInputChange}
+              value={formValues.email}
+              name="email"
               placeholder="Укажите e-mail"
               isIcon={false}
             />

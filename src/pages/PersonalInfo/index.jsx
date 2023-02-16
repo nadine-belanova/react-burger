@@ -1,35 +1,22 @@
-import { useState } from 'react';
-
 import { Input, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useAuth } from '../../services/auth';
+import { useForm } from '../../hooks/useForm';
 
 const PersonalInfo = () => {
   const { user } = useAuth();
-  const [name] = useState(user.name);
-  const [email] = useState(user.email);
-  const [password] = useState('');
-
-  // const onNameChange = (e) => {
-  //   setName(e.target.value);
-  // };
-  // const onEmailChange = (e) => {
-  //   setEmail(e.target.value);
-  // };
-  // const onPasswordChange = (e) => {
-  //   setPassword(e.target.value);
-  // };
+  const { formValues } = useForm({ name: user.name, email: user.email, password: '' });
 
   return (
     <form>
       <div className="mb-6">
-        <Input type="text" value={name} name={'name'} placeholder="Имя" disabled />
+        <Input type="text" value={formValues.name} name="name" placeholder="Имя" disabled />
       </div>
       <div className="mb-6">
-        <EmailInput value={email} name={'email'} isIcon={false} disabled />
+        <EmailInput value={formValues.email} name="email" isIcon={false} disabled />
       </div>
       <div>
-        <PasswordInput value={password} name={'password'} extraClass="mb-2" disabled />
+        <PasswordInput value={formValues.password} name="password" extraClass="mb-2" disabled />
       </div>
     </form>
   );
