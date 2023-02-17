@@ -1,26 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 
-import { useAuth } from '../../services/auth';
+import { selectUserOptions } from '../../store/user/userSlice';
+import { fetchUser } from '../../store/user/userAsyncActions';
 
 export function ProtectedRouteElement({ element }) {
+  const dispatch = useDispatch();
   const location = useLocation();
-  const { getUser, ...auth } = useAuth();
-
-  const [isUserLoaded, setUserLoaded] = useState(false);
-
-  const init = async () => {
-    await getUser();
-    setUserLoaded(true);
-  };
+  const { user, userLoading } = useSelector(selectUserOptions);
 
   useEffect(() => {
-    init();
-  }, []);
+    dispatch(fetchUser());
+  }, [dispatch]);
 
-  if (!isUserLoaded) {
+  if (userLoading) {
     return null;
   }
 
-  return auth.user ? element : <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  return user ? element : <Navigate to="/login" replace state={{ from: location.pathname }} />;
 }

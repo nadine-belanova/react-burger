@@ -1,10 +1,11 @@
+import { useSelector } from 'react-redux';
 import { Input, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAuth } from '../../services/auth';
+import { selectUserOptions } from '../../store/user/userSlice';
 import { useForm } from '../../hooks/useForm';
 
 const PersonalInfo = () => {
-  const { user } = useAuth();
+  const { user } = useSelector(selectUserOptions);
   const { formValues } = useForm({ name: user.name, email: user.email, password: '' });
 
   return (

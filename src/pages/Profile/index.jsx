@@ -1,28 +1,28 @@
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
-import { useAuth } from '../../services/auth';
+import { signOut } from '../../store/user/userAsyncActions';
+import { selectUserOptions } from '../../store/user/userSlice';
 
 import styles from './Profile.module.css';
 
 const Profile = () => {
-  const { signOut } = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector(selectUserOptions);
 
   const handleLoginClick = () => {
-    signOut()
-      .then((result) => {
-        if (result.success) {
-          navigate('/login');
-        } else {
-          NotificationManager.error(result.message);
-        }
-      })
-      .catch((error) => {
-        NotificationManager.error(error.message);
-      });
+    dispatch(signOut());
   };
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [navigate, user]);
 
   return (
     <>

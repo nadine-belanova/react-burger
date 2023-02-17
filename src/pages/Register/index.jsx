@@ -1,17 +1,21 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAuth } from '../../services/auth';
+import { registerUser } from '../../store/user/userAsyncActions';
+import { selectUserOptions } from '../../store/user/userSlice';
 import { useForm } from '../../hooks/useForm';
 
 import styles from '../Login/Login.module.css';
+import { useEffect } from 'react';
 
 const Register = () => {
-  const { registerUser } = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user, userLoading, userError } = useSelector(selectUserOptions);
   const { formValues, handleFormInputChange } = useForm({ name: '', email: '', password: '' });
 
   const handleRegisterSubmit = (event) => {
@@ -22,18 +26,19 @@ const Register = () => {
       return;
     }
 
-    registerUser(formValues.name, formValues.email, formValues.password)
-      .then((result) => {
-        if (result.success) {
-          navigate('/');
-        } else {
-          NotificationManager.error(result.message);
-        }
-      })
-      .catch((error) => {
-        NotificationManager.error(error.message);
-      });
+    dispatch(registerUser(formValues.name, formValues.email, formValues.password));
   };
+
+  useEffect(() => {
+    if (!userLoading) {
+      if (user) {
+        navigate('/');
+      }
+      if (userError) {
+        NotificationManager.error(userError);
+      }
+    }
+  }, [userLoading, user, navigate, userError]);
 
   return (
     <>

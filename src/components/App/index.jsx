@@ -20,8 +20,8 @@ import ResetPasswordPage from '../../pages/ResetPassword';
 
 import styles from './App.module.css';
 
-import { fetchIngredients } from '../../store/async-actions/ingredients';
-import { selectIngredientsOptions } from '../../store/slices/ingredients';
+import { fetchIngredients } from '../../store/ingredients/ingredientsAsyncActions';
+import { selectIngredientsOptions } from '../../store/ingredients/ingredientsSlice';
 
 function App() {
   const location = useLocation();

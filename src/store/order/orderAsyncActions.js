@@ -1,6 +1,6 @@
 import burgerAPI from '../../burger-api';
 
-import { orderRequest, orderSuccess, orderError } from '../slices/order';
+import { orderRequest, orderSuccess, orderError } from './orderSlice';
 
 export const createOrder = (order) => (dispatch) => {
   dispatch(orderRequest());

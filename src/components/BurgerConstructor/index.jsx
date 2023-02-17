@@ -9,9 +9,9 @@ import {
   addSelectedIngredient,
   selectIngredientsOptions,
   clearSelectedIngredients,
-} from '../../store/slices/ingredients';
-import { createOrder } from '../../store/async-actions/order';
-import { removeOrder } from '../../store/slices/order';
+} from '../../store/ingredients/ingredientsSlice';
+import { createOrder } from '../../store/order/orderAsyncActions';
+import { removeOrder } from '../../store/order/orderSlice';
 
 import OrderDetails from '../OrderDetails';
 import InnerIngredient from './InnerIngredient';

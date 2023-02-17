@@ -1,18 +1,22 @@
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAuth } from '../../services/auth';
+import { selectUserOptions } from '../../store/user/userSlice';
+import { signIn } from '../../store/user/userAsyncActions';
 import { useForm } from '../../hooks/useForm';
 
 import styles from './Login.module.css';
 
 const Login = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
-  const { signIn } = useAuth();
   const navigate = useNavigate();
+  const { user, userLoading, userError } = useSelector(selectUserOptions);
   const { formValues, handleFormInputChange } = useForm({ email: '', password: '' });
 
   const handleLoginSubmit = (event) => {
@@ -23,18 +27,19 @@ const Login = () => {
       return;
     }
 
-    signIn(formValues.email, formValues.password)
-      .then((result) => {
-        if (result.success) {
-          navigate(location.state?.from || '/');
-        } else {
-          NotificationManager.error(result.message);
-        }
-      })
-      .catch((error) => {
-        NotificationManager.error(error.message);
-      });
+    dispatch(signIn(formValues.email, formValues.password));
   };
+
+  useEffect(() => {
+    if (!userLoading) {
+      if (user) {
+        navigate(location.state?.from || '/');
+      }
+      if (userError) {
+        NotificationManager.error(userError);
+      }
+    }
+  }, [userLoading, user, navigate, userError, location.state]);
 
   return (
     <>
