@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
 
 import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -12,6 +13,8 @@ import {
 } from '../../store/ingredients/ingredientsSlice';
 import { createOrder } from '../../store/order/orderAsyncActions';
 import { removeOrder } from '../../store/order/orderSlice';
+import { selectUserOptions } from '../../store/user/userSlice';
+import { fetchUser } from '../../store/user/userAsyncActions';
 
 import OrderDetails from '../OrderDetails';
 import InnerIngredient from './InnerIngredient';
@@ -20,8 +23,12 @@ import styles from './BurgerConstructor.module.css';
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, userLoading } = useSelector(selectUserOptions);
   const { selectedIngredients, selectedBun } = useSelector(selectIngredientsOptions);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateOrderClicked, setIsCreateOrderClicked] = useState(false);
 
   const allIngredients = useMemo(
     () => (selectedBun ? [selectedBun, ...selectedIngredients, selectedBun] : [...selectedIngredients]),
@@ -30,10 +37,22 @@ const BurgerConstructor = () => {
 
   const totalPrice = useMemo(() => allIngredients.reduce((accum, item) => accum + item.price, 0), [allIngredients]);
 
-  const handleOpenModal = () => {
-    dispatch(createOrder(allIngredients));
-    setIsModalOpen(true);
+  const handleCreateOrderClick = () => {
+    dispatch(fetchUser());
+    setIsCreateOrderClicked(true);
   };
+
+  useEffect(() => {
+    if (isCreateOrderClicked && !userLoading) {
+      if (user) {
+        dispatch(createOrder(allIngredients));
+        setIsModalOpen(true);
+        setIsCreateOrderClicked(false);
+      } else {
+        navigate('/login', { state: { from: location.pathname } });
+      }
+    }
+  }, [isCreateOrderClicked, userLoading, user, dispatch, navigate, location.pathname, allIngredients]);
 
   const handleCloseModal = () => {
     dispatch(clearSelectedIngredients());
@@ -139,7 +158,7 @@ const BurgerConstructor = () => {
             htmlType="button"
             type="primary"
             size="large"
-            onClick={handleOpenModal}
+            onClick={handleCreateOrderClick}
             disabled={!selectedBun || selectedIngredients.length === 0}
           >
             Оформить заказ

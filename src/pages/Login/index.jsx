@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -42,42 +42,39 @@ const Login = () => {
   }, [userLoading, user, navigate, userError, location.state]);
 
   return (
-    <>
-      <main className={styles.login}>
-        <form onSubmit={handleLoginSubmit}>
-          <div className="text text_type_main-medium mb-6">Вход</div>
-          <div className="mb-6">
-            <EmailInput onChange={handleFormInputChange} value={formValues.email} name="email" isIcon={false} />
-          </div>
-          <div className="mb-6">
-            <PasswordInput
-              onChange={handleFormInputChange}
-              value={formValues.password}
-              name="password"
-              extraClass="mb-2"
-            />
-          </div>
-          <div className="mb-20">
-            <Button htmlType="submit" type="primary" size="large">
-              Войти
-            </Button>
-          </div>
-          <div className="mb-4">
-            <span className="text text_type_main-default text_color_inactive">Вы - новый пользователь?</span>
-            <Link to="/register" className={`${styles.link} text text_type_main-default ml-2`}>
-              Зарегистрироваться
-            </Link>
-          </div>
-          <div className="mb-4">
-            <span className="text text_type_main-default text_color_inactive">Забыли пароль?</span>
-            <Link to="/forgot-password" className={`${styles.link} text text_type_main-default ml-2`}>
-              Восстановить пароль
-            </Link>
-          </div>
-        </form>
-      </main>
-      <NotificationContainer />
-    </>
+    <main className={styles.login}>
+      <form onSubmit={handleLoginSubmit}>
+        <div className="text text_type_main-medium mb-6">Вход</div>
+        <div className="mb-6">
+          <EmailInput onChange={handleFormInputChange} value={formValues.email} name="email" isIcon={false} />
+        </div>
+        <div className="mb-6">
+          <PasswordInput
+            onChange={handleFormInputChange}
+            value={formValues.password}
+            name="password"
+            extraClass="mb-2"
+          />
+        </div>
+        <div className="mb-20">
+          <Button htmlType="submit" type="primary" size="large">
+            Войти
+          </Button>
+        </div>
+        <div className="mb-4">
+          <span className="text text_type_main-default text_color_inactive">Вы - новый пользователь?</span>
+          <Link to="/register" className={`${styles.link} text text_type_main-default ml-2`}>
+            Зарегистрироваться
+          </Link>
+        </div>
+        <div className="mb-4">
+          <span className="text text_type_main-default text_color_inactive">Забыли пароль?</span>
+          <Link to="/forgot-password" className={`${styles.link} text text_type_main-default ml-2`}>
+            Восстановить пароль
+          </Link>
+        </div>
+      </form>
+    </main>
   );
 };
 

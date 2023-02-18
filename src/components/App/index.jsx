@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { NotificationContainer } from 'react-notifications';
 
 import { ProvideAuth } from '../../services/auth';
 
@@ -75,6 +76,7 @@ function App() {
           <div className="text text_type_main-small text_color_inactive">{ingredientsError}</div>
         </div>
       )}
+      <NotificationContainer />
     </div>
   );
 }

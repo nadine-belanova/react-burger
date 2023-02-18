@@ -1,4 +1,5 @@
 import { NORMA_API, checkResponse } from '../helpers';
+import { getCookie } from '../../services/utils';
 
 export function createOrder(ingredients) {
   const data = {
@@ -8,6 +9,7 @@ export function createOrder(ingredients) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${getCookie('accessToken')}`,
     },
     body: JSON.stringify(data),
   }).then(checkResponse);
