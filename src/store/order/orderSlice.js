@@ -1,13 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
-
-import burgerAPI from '../utils/burger-api'
+import { createSlice } from '@reduxjs/toolkit';
 
 export const orderSlice = createSlice({
   name: 'order',
   initialState: {
     orderLoading: false,
     order: null,
-    orderError: ''
+    orderError: '',
   },
   reducers: {
     orderRequest: (state, action) => {
@@ -25,21 +23,12 @@ export const orderSlice = createSlice({
       state.order = null;
     },
   },
-})
+});
 
-const { actions, reducer } = orderSlice
+const { actions, reducer } = orderSlice;
 
-export const { orderRequest, orderSuccess, orderError, removeOrder } = actions
+export const { orderRequest, orderSuccess, orderError, removeOrder } = actions;
 
 export const selectOrderOptions = (state) => state.order;
 
-export const createOrder = (order) => (dispatch) => {
-  dispatch(orderRequest());
-  burgerAPI.createOrder(order).then(orderData => {
-    dispatch(orderSuccess(orderData));
-  }).catch(error => {
-    dispatch(orderError(error.message));
-  });
-}
-
-export default reducer
+export default reducer;

@@ -1,6 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
-
-import burgerAPI from '../utils/burger-api'
+import { createSlice } from '@reduxjs/toolkit';
 
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
@@ -17,21 +15,23 @@ export const ingredientsSlice = createSlice({
     },
     ingredientsSuccess: (state, action) => {
       state.isLoading = false;
-      state.ingredients = action.payload
+      state.ingredients = action.payload;
     },
     ingredientsError: (state, action) => {
       state.isLoading = false;
       state.ingredientsError = action.payload;
     },
     addSelectedIngredient: (state, action) => {
-      const newIngredient = state.ingredients.find(ingredient => ingredient._id === action.payload);
+      const newIngredient = state.ingredients.find((ingredient) => ingredient._id === action.payload);
       state.selectedIngredients = [...state.selectedIngredients, newIngredient];
     },
     addSelectedBun: (state, action) => {
-      state.selectedBun = state.ingredients.find(ingredient => ingredient._id === action.payload);
+      state.selectedBun = state.ingredients.find((ingredient) => ingredient._id === action.payload);
     },
     removeIngredient: (state, action) => {
-      state.selectedIngredients = [...state.selectedIngredients.filter(ingredient => ingredient._id !== action.payload)];
+      state.selectedIngredients = [
+        ...state.selectedIngredients.filter((ingredient) => ingredient._id !== action.payload),
+      ];
     },
     sortIngridients: (state, action) => {
       const { fromIndex, toIndex } = action.payload;
@@ -46,24 +46,21 @@ export const ingredientsSlice = createSlice({
       state.selectedBun = null;
     },
   },
-})
+});
 
-const { actions, reducer } = ingredientsSlice
+const { actions, reducer } = ingredientsSlice;
 
 export const {
-  ingredientsRequest, ingredientsSuccess, ingredientsError,
-  addSelectedIngredient, addSelectedBun, removeIngredient, sortIngridients, clearSelectedIngredients
-} = actions
+  ingredientsRequest,
+  ingredientsSuccess,
+  ingredientsError,
+  addSelectedIngredient,
+  addSelectedBun,
+  removeIngredient,
+  sortIngridients,
+  clearSelectedIngredients,
+} = actions;
 
 export const selectIngredientsOptions = (state) => state.ingredients;
 
-export const fetchIngredients = () => (dispatch) => {
-  dispatch(ingredientsRequest());
-  burgerAPI.fetchIngredients().then(resultData => {
-    dispatch(ingredientsSuccess(resultData));
-  }).catch(error => {
-    dispatch(ingredientsError(error.message));
-  });
-}
-
-export default reducer
+export default reducer;

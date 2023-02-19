@@ -1,22 +1,22 @@
 import { useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { selectIngredientsOptions } from '../../services/ingredientsSlice'
+import { selectIngredientsOptions } from '../../store/ingredients/ingredientsSlice';
 
-import BurgerIngredient from './BurgerIngredient'
+import BurgerIngredient from './BurgerIngredient';
 
 import styles from './BurgerIngredients.module.css';
 
 const BurgerIngredients = () => {
-  const { ingredients } = useSelector(selectIngredientsOptions)
+  const { ingredients } = useSelector(selectIngredientsOptions);
 
-  const [currentTab, setCurrentTab] = useState('bunsTab')
+  const [currentTab, setCurrentTab] = useState('bunsTab');
 
-  const buns = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
-  const mains = useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
-  const sauces = useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
+  const buns = useMemo(() => ingredients.filter((item) => item.type === 'bun'), [ingredients]);
+  const mains = useMemo(() => ingredients.filter((item) => item.type === 'main'), [ingredients]);
+  const sauces = useMemo(() => ingredients.filter((item) => item.type === 'sauce'), [ingredients]);
 
   const bunsRef = useRef(null);
   const mainsRef = useRef(null);
@@ -32,13 +32,13 @@ const BurgerIngredients = () => {
     if (tabValue === 'saucesTab' && saucesRef.current) {
       saucesRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }
+  };
   const handleIngridientsScroll = (e) => {
     const scrollTop = e.target.scrollTop;
     const bunsRect = bunsRef.current.getBoundingClientRect();
-    const isBunsVisible = (bunsRect.height - scrollTop) > 0;
+    const isBunsVisible = bunsRect.height - scrollTop > 0;
     const mainsRect = mainsRef.current.getBoundingClientRect();
-    const isMainsVisible = (bunsRect.height + mainsRect.height - scrollTop) > 0;
+    const isMainsVisible = bunsRect.height + mainsRect.height - scrollTop > 0;
     if (isBunsVisible) {
       setCurrentTab('bunsTab');
     } else if (isMainsVisible) {
@@ -46,10 +46,10 @@ const BurgerIngredients = () => {
     } else {
       setCurrentTab('saucesTab');
     }
-  }
+  };
 
   return (
-    <div className={`${styles.constructor} mt-10 mb-10`} >
+    <div className={`${styles.constructor} mt-10 mb-10`}>
       <div className="text text_type_main-large">Соберите бургер</div>
       <div className={`${styles.tabs} mt-5`}>
         <Tab value="bunsTab" active={currentTab === 'bunsTab'} onClick={handleTabClick}>
@@ -66,7 +66,7 @@ const BurgerIngredients = () => {
         <div ref={bunsRef}>
           <div className={`${styles.heading} text text_type_main-medium mt-10`}>Булки</div>
           <div className={styles.section}>
-            {buns.map(ingredient => (
+            {buns.map((ingredient) => (
               <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
             ))}
           </div>
@@ -74,22 +74,24 @@ const BurgerIngredients = () => {
         <div ref={mainsRef}>
           <div className={`${styles.heading} text text_type_main-medium mt-10`}>Соусы</div>
           <div className={styles.section}>
-            {sauces.map(ingredient => (
+            {sauces.map((ingredient) => (
               <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
             ))}
           </div>
         </div>
         <div ref={saucesRef}>
-          <div className={`${styles.heading} text text_type_main-medium mt-10`} ref={saucesRef}>Начинки</div>
+          <div className={`${styles.heading} text text_type_main-medium mt-10`} ref={saucesRef}>
+            Начинки
+          </div>
           <div className={styles.section}>
-            {mains.map(ingredient => (
+            {mains.map((ingredient) => (
               <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
             ))}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 };
 
-export default BurgerIngredients
+export default BurgerIngredients;

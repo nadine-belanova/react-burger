@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import ingredientsReducer from './ingredientsSlice';
-import orderReducer from './orderSlice';
+import ingredientsReducer from './ingredients/ingredientsSlice';
+import orderReducer from './order/orderSlice';
+import userReducer from './user/userSlice';
 
 import { compose, applyMiddleware } from 'redux';
 const composeEnhancers =
@@ -10,9 +11,13 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(applyMiddleware());
 
-export default configureStore({
-  reducer: {
-    ingredients: ingredientsReducer,
-    order: orderReducer,
+export default configureStore(
+  {
+    reducer: {
+      ingredients: ingredientsReducer,
+      order: orderReducer,
+      user: userReducer,
+    },
   },
-}, enhancer);
+  enhancer
+);

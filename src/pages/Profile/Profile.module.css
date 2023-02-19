@@ -1,0 +1,26 @@
+.profile {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 110px);
+}
+
+.profileNav {
+  max-width: 320px;
+  text-align: left;
+}
+
+.profileNavItem {
+  color: #f2f2f3;
+  padding: 17px 0;
+  text-decoration: none;
+}
+
+.profileNavItemInactive {
+  composes: profileNavItem;
+  color: #8585ad;
+  cursor: pointer;
+}
+
+.profileNavItemInactive:hover {
+  color: #717195;
+}

@@ -1,10 +1,9 @@
-import { useState, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { removeIngredient, sortIngridients } from '../../../services/ingredientsSlice';
+import { removeIngredient, sortIngridients } from '../../../store/ingredients/ingredientsSlice';
 
 import styles from '../BurgerConstructor.module.css';
 
@@ -12,8 +11,8 @@ const InnerIngredient = ({ ingredient, index }) => {
   const dispatch = useDispatch();
 
   const handleRemoveIngredient = (_id) => {
-    dispatch(removeIngredient(_id))
-  }
+    dispatch(removeIngredient(_id));
+  };
 
   const [{ opacity, isDragging }, dragRef] = useDrag({
     type: 'sort',
@@ -22,20 +21,19 @@ const InnerIngredient = ({ ingredient, index }) => {
     },
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
-      isDragging: monitor.isDragging()
+      isDragging: monitor.isDragging(),
     }),
   });
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'sort',
-    collect: monitor => ({
-      isHover: monitor.isOver()
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
     }),
     drop(item) {
-      dispatch(sortIngridients({ ...item, toIndex: index }))
+      dispatch(sortIngridients({ ...item, toIndex: index }));
     },
   });
-
 
   return (
     <div ref={dropTarget}>
@@ -47,12 +45,14 @@ const InnerIngredient = ({ ingredient, index }) => {
           text={ingredient.name}
           price={ingredient.price}
           thumbnail={ingredient.image}
-          handleClose={() => { handleRemoveIngredient(ingredient._id) }}
+          handleClose={() => {
+            handleRemoveIngredient(ingredient._id);
+          }}
           extraClass={isHover && !isDragging ? styles.constructorElementHover : ''}
         />
-      </div >
-    </div >
-  )
+      </div>
+    </div>
+  );
 };
 
-export default InnerIngredient
+export default InnerIngredient;
