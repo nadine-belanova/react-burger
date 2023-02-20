@@ -1,7 +1,7 @@
 import { NORMA_API, checkResponse } from '../helpers';
 import { getCookie } from '../../services/utils';
 
-export function createOrder(ingredients) {
+export function createOrder(ingredients: Array<any>) {
   const data = {
     ingredients: ingredients.map((ingredient) => ingredient._id),
   };

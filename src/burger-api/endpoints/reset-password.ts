@@ -1,6 +1,6 @@
 import { NORMA_API, checkResponse } from '../helpers';
 
-export function sendResetPasswordCode(email) {
+export function sendResetPasswordCode(email: string) {
   const data = {
     email,
   };
@@ -13,7 +13,7 @@ export function sendResetPasswordCode(email) {
   }).then(checkResponse);
 }
 
-export function resetPassword(password, token) {
+export function resetPassword(password: string, token: string) {
   const data = {
     password,
     token,

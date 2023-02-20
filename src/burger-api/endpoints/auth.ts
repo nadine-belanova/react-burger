@@ -13,7 +13,7 @@ export const refreshToken = () => {
   }).then(checkResponse);
 };
 
-export function registerUser(name, email, password) {
+export function registerUser(name: string, email: string, password: string) {
   const data = { name, email, password };
   return fetch(`${NORMA_API}/auth/register`, {
     method: 'POST',
@@ -24,7 +24,7 @@ export function registerUser(name, email, password) {
   }).then(checkResponse);
 }
 
-export function login(email, password) {
+export function login(email: string, password: string) {
   const data = { email, password };
   return fetch(`${NORMA_API}/auth/login`, {
     method: 'POST',
