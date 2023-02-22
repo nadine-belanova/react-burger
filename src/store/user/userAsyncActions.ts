@@ -1,10 +1,10 @@
 import burgerAPI from '../../burger-api';
-
+import { AppDispatch } from '../index';
 import { setCookie } from '../../services/utils';
 
 import { userRequest, userSuccess, userError, clearUser } from './userSlice';
 
-export const fetchUser = () => (dispatch) => {
+export const fetchUser = () => (dispatch: AppDispatch) => {
   dispatch(userRequest());
   burgerAPI
     .getUser()
@@ -16,7 +16,7 @@ export const fetchUser = () => (dispatch) => {
         try {
           const refreshData = await burgerAPI.refreshToken();
           if (refreshData.success) {
-            setCookie('accessToken', refreshData.token);
+            setCookie('accessToken', refreshData.token, {});
             const data = await burgerAPI.getUser();
             if (data.success) {
               dispatch(userSuccess(data.user));
@@ -26,7 +26,7 @@ export const fetchUser = () => (dispatch) => {
           } else {
             dispatch(userError('Невозможно обновить токен'));
           }
-        } catch (err) {
+        } catch (err: any) {
           dispatch(userError(err.message));
         }
       } else {
@@ -35,14 +35,14 @@ export const fetchUser = () => (dispatch) => {
     });
 };
 
-export const registerUser = (name, email, password) => (dispatch) => {
+export const registerUser = (name: string, email: string, password: string) => (dispatch: AppDispatch) => {
   dispatch(userRequest());
   burgerAPI
     .registerUser(name, email, password)
     .then((data) => {
       if (data.success && data.accessToken.indexOf('Bearer ') === 0) {
         localStorage.setItem('refreshToken', data.refreshToken);
-        setCookie('accessToken', data.accessToken.split('Bearer ')[1]);
+        setCookie('accessToken', data.accessToken.split('Bearer ')[1], {});
         dispatch(userSuccess(data.user));
       } else {
         dispatch(userError(data.message));
@@ -53,14 +53,14 @@ export const registerUser = (name, email, password) => (dispatch) => {
     });
 };
 
-export const signIn = (email, password) => (dispatch) => {
+export const signIn = (email: string, password: string) => (dispatch: AppDispatch) => {
   dispatch(userRequest());
   burgerAPI
     .login(email, password)
     .then((data) => {
       if (data.success && data.accessToken.indexOf('Bearer ') === 0) {
         localStorage.setItem('refreshToken', data.refreshToken);
-        setCookie('accessToken', data.accessToken.split('Bearer ')[1]);
+        setCookie('accessToken', data.accessToken.split('Bearer ')[1], {});
         dispatch(userSuccess(data.user));
       } else {
         dispatch(userError(data.message));
@@ -71,7 +71,7 @@ export const signIn = (email, password) => (dispatch) => {
     });
 };
 
-export const signOut = () => (dispatch) => {
+export const signOut = () => (dispatch: AppDispatch) => {
   burgerAPI
     .logout()
     .then(() => {

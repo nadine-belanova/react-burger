@@ -1,12 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { RootState } from '../index';
+import { TUserState } from './userTypes';
+
+const initialState: TUserState = {
+  userLoading: false,
+  user: null,
+  userError: '',
+};
+
 export const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    userLoading: false,
-    user: null,
-    userError: '',
-  },
+  initialState,
   reducers: {
     userRequest: (state) => {
       state.userLoading = true;
@@ -32,6 +37,6 @@ const { actions, reducer } = userSlice;
 
 export const { userRequest, userSuccess, userError, clearUser } = actions;
 
-export const selectUserOptions = (state) => state.user;
+export const selectUserOptions = (state: RootState) => state.user;
 
 export default reducer;

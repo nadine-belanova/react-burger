@@ -1,14 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { RootState } from '../index';
+import { TIngredient, TIngredientsState } from './ingredientsTypes';
+
+const initialState: TIngredientsState = {
+  isLoading: false,
+  ingredientsError: '',
+  ingredients: [],
+  selectedBun: null,
+  selectedIngredients: [],
+};
+
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
-  initialState: {
-    isLoading: false,
-    ingredientsError: '',
-    ingredients: [],
-    selectedBun: null,
-    selectedIngredients: [],
-  },
+  initialState,
   reducers: {
     ingredientsRequest: (state) => {
       state.isLoading = true;
@@ -23,10 +28,12 @@ export const ingredientsSlice = createSlice({
     },
     addSelectedIngredient: (state, action) => {
       const newIngredient = state.ingredients.find((ingredient) => ingredient._id === action.payload);
-      state.selectedIngredients = [...state.selectedIngredients, newIngredient];
+      if (newIngredient) {
+        state.selectedIngredients = [...state.selectedIngredients, newIngredient];
+      }
     },
     addSelectedBun: (state, action) => {
-      state.selectedBun = state.ingredients.find((ingredient) => ingredient._id === action.payload);
+      state.selectedBun = state.ingredients.find((ingredient) => ingredient._id === action.payload) || null;
     },
     removeIngredient: (state, action) => {
       state.selectedIngredients = [
@@ -61,6 +68,6 @@ export const {
   clearSelectedIngredients,
 } = actions;
 
-export const selectIngredientsOptions = (state) => state.ingredients;
+export const selectIngredientsOptions = (state: RootState) => state.ingredients;
 
 export default reducer;

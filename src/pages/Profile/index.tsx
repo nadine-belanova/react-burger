@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import 'react-notifications/lib/notifications.css';
 
-import { signOut } from '../../store/user/userAsyncActions';
+// import { signOut } from '../../store/user/userAsyncActions';
 import { selectUserOptions } from '../../store/user/userSlice';
 
 import styles from './Profile.module.css';
@@ -14,7 +14,7 @@ const Profile = () => {
   const { user } = useSelector(selectUserOptions);
 
   const handleLoginClick = () => {
-    dispatch(signOut());
+    // dispatch(signOut()); todo
   };
 
   useEffect(() => {

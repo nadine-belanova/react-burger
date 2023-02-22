@@ -1,8 +1,9 @@
 import burgerAPI from '../../burger-api';
+import { AppDispatch } from '../index';
 
 import { ingredientsRequest, ingredientsSuccess, ingredientsError } from './ingredientsSlice';
 
-export const fetchIngredients = () => (dispatch) => {
+export const fetchIngredients = () => (dispatch: AppDispatch) => {
   dispatch(ingredientsRequest());
   burgerAPI
     .fetchIngredients()

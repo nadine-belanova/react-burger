@@ -11,10 +11,15 @@ import userReducer from './user/userSlice';
 
 // const enhancer = composeEnhancers(applyMiddleware());
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     ingredients: ingredientsReducer,
     order: orderReducer,
     user: userReducer,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

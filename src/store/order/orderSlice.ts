@@ -1,14 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { RootState } from '../index';
+import { TOrderState } from './orderTypes';
+
+const initialState: TOrderState = {
+  orderLoading: false,
+  order: null,
+  orderError: '',
+};
+
 export const orderSlice = createSlice({
   name: 'order',
-  initialState: {
-    orderLoading: false,
-    order: null,
-    orderError: '',
-  },
+  initialState,
   reducers: {
-    orderRequest: (state, action) => {
+    orderRequest: (state) => {
       state.orderLoading = true;
     },
     orderSuccess: (state, action) => {
@@ -29,6 +34,6 @@ const { actions, reducer } = orderSlice;
 
 export const { orderRequest, orderSuccess, orderError, removeOrder } = actions;
 
-export const selectOrderOptions = (state) => state.order;
+export const selectOrderOptions = (state: RootState) => state.order;
 
 export default reducer;
