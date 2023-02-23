@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { NotificationManager } from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -23,7 +23,7 @@ const Login = () => {
     event.preventDefault();
 
     if (formValues.email === '' || formValues.password === '') {
-      NotificationManager.error('Заполните все поля, пожалуйста');
+      toast.error('Заполните все поля, пожалуйста');
       return;
     }
 
@@ -36,7 +36,7 @@ const Login = () => {
         navigate(location.state?.from || '/');
       }
       if (userError) {
-        NotificationManager.error(userError);
+        toast.error(userError);
       }
     }
   }, [userLoading, user, navigate, userError, location.state]);

@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { NotificationContainer } from 'react-notifications';
 
 import { ProvideAuth } from '../../services/auth';
 
@@ -18,6 +17,7 @@ import LoginPage from '../../pages/Login';
 import RegisterPage from '../../pages/Register';
 import ForgotPasswordPage from '../../pages/ForgotPassword';
 import ResetPasswordPage from '../../pages/ResetPassword';
+import { ToastContainer } from 'react-toastify';
 
 import styles from './App.module.css';
 
@@ -76,7 +76,7 @@ function App() {
           <div className="text text_type_main-small text_color_inactive">{ingredientsError}</div>
         </div>
       )}
-      <NotificationContainer />
+      <ToastContainer theme="dark" />
     </div>
   );
 }

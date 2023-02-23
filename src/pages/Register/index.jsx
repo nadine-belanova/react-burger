@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { NotificationManager } from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -22,7 +22,7 @@ const Register = () => {
     event.preventDefault();
 
     if (formValues.name === '' || formValues.email === '' || formValues.password === '') {
-      NotificationManager.error('Заполните все поля, пожалуйста');
+      toast.error('Заполните все поля, пожалуйста');
       return;
     }
 
@@ -35,7 +35,7 @@ const Register = () => {
         navigate('/');
       }
       if (userError) {
-        NotificationManager.error(userError);
+        toast.error(userError);
       }
     }
   }, [userLoading, user, navigate, userError]);

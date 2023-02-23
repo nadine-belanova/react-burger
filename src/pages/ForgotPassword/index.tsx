@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { NotificationManager } from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -14,11 +14,11 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const { formValues, handleFormInputChange } = useForm({ email: '' });
 
-  const handleResetPasswordSubmit = (event) => {
+  const handleResetPasswordSubmit = (event: any) => {
     event.preventDefault();
 
     if (formValues.email === '') {
-      NotificationManager.error('Заполните все поля, пожалуйста');
+      toast.error('Заполните все поля, пожалуйста');
       return;
     }
 
@@ -28,11 +28,11 @@ const ForgotPassword = () => {
         if (result.success) {
           navigate('/reset-password', { state: { from: location.pathname } });
         } else {
-          NotificationManager.error(result.message);
+          toast.error(result.message);
         }
       })
       .catch((error) => {
-        NotificationManager.error(error.message);
+        toast.error(error.message);
       });
   };
 

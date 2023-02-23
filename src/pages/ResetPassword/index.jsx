@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { NotificationManager } from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -25,7 +25,7 @@ const ResetPassword = () => {
     event.preventDefault();
 
     if (formValues.password === '' || formValues.code === '') {
-      NotificationManager.error('Заполните все поля, пожалуйста');
+      toast.error('Заполните все поля, пожалуйста');
       return;
     }
 
@@ -35,11 +35,11 @@ const ResetPassword = () => {
         if (result.success) {
           navigate('/login');
         } else {
-          NotificationManager.error(result.message);
+          toast.error(result.message);
         }
       })
       .catch((error) => {
-        NotificationManager.error(error.message);
+        toast.error(error.message);
       });
   };
 
