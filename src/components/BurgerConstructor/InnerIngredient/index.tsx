@@ -1,16 +1,24 @@
-import { useDispatch } from 'react-redux';
+import { FC } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+
+import { TIngredient } from '../../../store/ingredients/ingredientsTypes';
 import { removeIngredient, sortIngridients } from '../../../store/ingredients/ingredientsSlice';
 
 import styles from '../BurgerConstructor.module.css';
 
-const InnerIngredient = ({ ingredient, index }) => {
-  const dispatch = useDispatch();
+type TInnerIngredientProps = {
+  ingredient: TIngredient;
+  index: number;
+};
 
-  const handleRemoveIngredient = (_id) => {
+export const InnerIngredient: FC<TInnerIngredientProps> = ({ ingredient, index }) => {
+  const dispatch = useAppDispatch();
+
+  const handleRemoveIngredient = (_id: string) => {
     dispatch(removeIngredient(_id));
   };
 
@@ -31,7 +39,7 @@ const InnerIngredient = ({ ingredient, index }) => {
       isHover: monitor.isOver(),
     }),
     drop(item) {
-      dispatch(sortIngridients({ ...item, toIndex: index }));
+      dispatch(sortIngridients({ ...(item as { fromIndex: number }), toIndex: index }));
     },
   });
 

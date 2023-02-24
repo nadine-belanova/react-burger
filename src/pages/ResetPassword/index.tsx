@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, FormEvent } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -21,7 +21,7 @@ const ResetPassword = () => {
     }
   }, [navigate, location.state]);
 
-  const handleResetPasswordSubmit = (event) => {
+  const handleResetPasswordSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (formValues.password === '' || formValues.code === '') {
@@ -61,7 +61,7 @@ const ResetPassword = () => {
             type="text"
             onChange={handleFormInputChange}
             value={formValues.code}
-            name="name"
+            name="code"
             placeholder="Введите код из письма"
           />
         </div>

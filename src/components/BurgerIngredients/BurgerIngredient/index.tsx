@@ -1,17 +1,20 @@
-import { useMemo } from 'react';
+import { useMemo, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { TIngredient } from '../../../store/ingredients/ingredientsTypes';
 import { selectIngredientsOptions } from '../../../store/ingredients/ingredientsSlice';
-
-import { IngredientType } from '../../../types';
 
 import styles from './BurgerIngredient.module.css';
 
-const BurgerIngredient = ({ ingredient }) => {
+type TBurgerIngredientProps = {
+  ingredient: TIngredient;
+};
+
+export const BurgerIngredient: FC<TBurgerIngredientProps> = ({ ingredient }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { selectedBun, selectedIngredients } = useSelector(selectIngredientsOptions);
@@ -54,10 +57,6 @@ const BurgerIngredient = ({ ingredient }) => {
       </div>
     </>
   );
-};
-
-BurgerIngredient.propTypes = {
-  ingredient: IngredientType.isRequired,
 };
 
 export default BurgerIngredient;

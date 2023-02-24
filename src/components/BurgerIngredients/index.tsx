@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState, UIEvent } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -18,10 +18,10 @@ const BurgerIngredients = () => {
   const mains = useMemo(() => ingredients.filter((item) => item.type === 'main'), [ingredients]);
   const sauces = useMemo(() => ingredients.filter((item) => item.type === 'sauce'), [ingredients]);
 
-  const bunsRef = useRef(null);
-  const mainsRef = useRef(null);
-  const saucesRef = useRef(null);
-  const handleTabClick = (tabValue) => {
+  const bunsRef = useRef<HTMLDivElement>(null);
+  const mainsRef = useRef<HTMLDivElement>(null);
+  const saucesRef = useRef<HTMLDivElement>(null);
+  const handleTabClick = (tabValue: string) => {
     setCurrentTab(tabValue);
     if (tabValue === 'bunsTab' && bunsRef.current) {
       bunsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -33,18 +33,20 @@ const BurgerIngredients = () => {
       saucesRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-  const handleIngridientsScroll = (e) => {
-    const scrollTop = e.target.scrollTop;
-    const bunsRect = bunsRef.current.getBoundingClientRect();
-    const isBunsVisible = bunsRect.height - scrollTop > 0;
-    const mainsRect = mainsRef.current.getBoundingClientRect();
-    const isMainsVisible = bunsRect.height + mainsRect.height - scrollTop > 0;
-    if (isBunsVisible) {
-      setCurrentTab('bunsTab');
-    } else if (isMainsVisible) {
-      setCurrentTab('mainsTab');
-    } else {
-      setCurrentTab('saucesTab');
+  const handleIngridientsScroll = (e: UIEvent<HTMLDivElement>) => {
+    if (bunsRef.current && mainsRef.current) {
+      const scrollTop = e.currentTarget.scrollTop;
+      const bunsRect = bunsRef.current.getBoundingClientRect();
+      const isBunsVisible = bunsRect.height - scrollTop > 0;
+      const mainsRect = mainsRef.current.getBoundingClientRect();
+      const isMainsVisible = bunsRect.height + mainsRect.height - scrollTop > 0;
+      if (isBunsVisible) {
+        setCurrentTab('bunsTab');
+      } else if (isMainsVisible) {
+        setCurrentTab('mainsTab');
+      } else {
+        setCurrentTab('saucesTab');
+      }
     }
   };
 

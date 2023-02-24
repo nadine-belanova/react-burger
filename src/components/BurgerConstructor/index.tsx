@@ -1,9 +1,11 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
 
 import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 import {
   addSelectedBun,
@@ -22,7 +24,7 @@ import InnerIngredient from './InnerIngredient';
 import styles from './BurgerConstructor.module.css';
 
 const BurgerConstructor = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { user, userLoading } = useSelector(selectUserOptions);
@@ -66,7 +68,7 @@ const BurgerConstructor = () => {
       isTopBunHover: monitor.isOver(),
     }),
     drop(item) {
-      dispatch(addSelectedBun(item._id));
+      dispatch(addSelectedBun((item as { _id: string })._id));
     },
   });
   const [{ isIngridientsHover }, dropIngridientsTarget] = useDrop({
@@ -75,7 +77,7 @@ const BurgerConstructor = () => {
       isIngridientsHover: monitor.isOver(),
     }),
     drop(item) {
-      dispatch(addSelectedIngredient(item._id));
+      dispatch(addSelectedIngredient((item as { _id: string })._id));
     },
   });
   const [{ isBottomBunHover }, dropBottomBunTarget] = useDrop({
@@ -84,7 +86,7 @@ const BurgerConstructor = () => {
       isBottomBunHover: monitor.isOver(),
     }),
     drop(item) {
-      dispatch(addSelectedBun(item._id));
+      dispatch(addSelectedBun((item as { _id: string })._id));
     },
   });
 

@@ -1,5 +1,5 @@
+import { FC } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import { selectOrderOptions } from '../../store/order/orderSlice';
 
@@ -8,7 +8,11 @@ import DoneIcon from './DoneIcon.svg';
 
 import styles from './OrderDetails.module.css';
 
-const OrderDetails = ({ onClose }) => {
+type TOrderDetailsProps = {
+  onClose: () => void;
+};
+
+const OrderDetails: FC<TOrderDetailsProps> = ({ onClose }) => {
   const { order, orderLoading } = useSelector(selectOrderOptions);
   return (
     <Modal onClose={onClose}>
@@ -34,10 +38,6 @@ const OrderDetails = ({ onClose }) => {
       </div>
     </Modal>
   );
-};
-
-OrderDetails.propTypes = {
-  onClose: PropTypes.func.isRequired,
 };
 
 export default OrderDetails;

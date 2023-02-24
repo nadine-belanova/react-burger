@@ -3,10 +3,12 @@ import { AppDispatch } from '../index';
 
 import { orderRequest, orderSuccess, orderError } from './orderSlice';
 
-export const createOrder = (order: any) => (dispatch: AppDispatch) => {
+import { TIngredient } from '../../store/ingredients/ingredientsTypes';
+
+export const createOrder = (ingredients: Array<TIngredient>) => (dispatch: AppDispatch) => {
   dispatch(orderRequest());
   burgerAPI
-    .createOrder(order)
+    .createOrder(ingredients)
     .then((orderData) => {
       dispatch(orderSuccess(orderData));
     })

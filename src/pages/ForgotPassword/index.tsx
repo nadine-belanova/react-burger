@@ -1,3 +1,4 @@
+import { FormEvent } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +15,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const { formValues, handleFormInputChange } = useForm({ email: '' });
 
-  const handleResetPasswordSubmit = (event: any) => {
+  const handleResetPasswordSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (formValues.email === '') {

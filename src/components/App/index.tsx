@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { ProvideAuth } from '../../services/auth';
 
 import AppHeader from '../AppHeader';
-import { ProtectedRouteElement } from '../ProtectedRouteElement';
+import ProtectedRouteElement from '../ProtectedRouteElement';
 import ConstructorPage from '../../pages/Constructor';
 import IngredientPage from '../../pages/Ingredient';
 import Modal from '../Modal';
@@ -17,7 +19,6 @@ import LoginPage from '../../pages/Login';
 import RegisterPage from '../../pages/Register';
 import ForgotPasswordPage from '../../pages/ForgotPassword';
 import ResetPasswordPage from '../../pages/ResetPassword';
-import { ToastContainer } from 'react-toastify';
 
 import styles from './App.module.css';
 
@@ -27,7 +28,7 @@ import { selectIngredientsOptions } from '../../store/ingredients/ingredientsSli
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { isLoading, ingredientsError } = useSelector(selectIngredientsOptions);
   const background = location.state?.background;
 

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from '../index';
-import { TIngredient, TIngredientsState } from './ingredientsTypes';
+import { TIngredientsState } from './ingredientsTypes';
 
 const initialState: TIngredientsState = {
   isLoading: false,

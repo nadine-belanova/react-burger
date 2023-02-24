@@ -1,20 +1,22 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import 'react-notifications/lib/notifications.css';
 
-// import { signOut } from '../../store/user/userAsyncActions';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+
+import { signOut } from '../../store/user/userAsyncActions';
 import { selectUserOptions } from '../../store/user/userSlice';
 
 import styles from './Profile.module.css';
 
 const Profile = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { user } = useSelector(selectUserOptions);
 
   const handleLoginClick = () => {
-    // dispatch(signOut()); todo
+    dispatch(signOut());
   };
 
   useEffect(() => {

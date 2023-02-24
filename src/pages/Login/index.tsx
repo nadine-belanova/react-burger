@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, FormEvent } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 import { selectUserOptions } from '../../store/user/userSlice';
 import { signIn } from '../../store/user/userAsyncActions';
@@ -13,13 +15,13 @@ import { useForm } from '../../hooks/useForm';
 import styles from './Login.module.css';
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const { user, userLoading, userError } = useSelector(selectUserOptions);
   const { formValues, handleFormInputChange } = useForm({ email: '', password: '' });
 
-  const handleLoginSubmit = (event) => {
+  const handleLoginSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (formValues.email === '' || formValues.password === '') {
