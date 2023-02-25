@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import 'react-notifications/lib/notifications.css';
 
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 
