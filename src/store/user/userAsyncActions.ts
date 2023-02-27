@@ -27,8 +27,10 @@ export const fetchUser = () => (dispatch: AppDispatch) => {
             dispatch(userError('Невозможно обновить токен'));
           }
         } catch (err: any) {
-          if (error instanceof Error) {
+          if (err instanceof Error) {
             dispatch(userError(err.message));
+          } else {
+            dispatch(userError('Невозможно обновить токен'));
           }
         }
       } else {

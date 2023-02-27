@@ -9,9 +9,10 @@ import { fetchUser } from '../../store/user/userAsyncActions';
 
 type TProtectedRouteElementProps = {
   element: JSX.Element;
+  anonymous?: boolean;
 };
 
-const ProtectedRouteElement: FC<TProtectedRouteElementProps> = ({ element }) => {
+const ProtectedRouteElement: FC<TProtectedRouteElementProps> = ({ element, anonymous = false }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { user, userLoading } = useSelector(selectUserOptions);
@@ -22,6 +23,13 @@ const ProtectedRouteElement: FC<TProtectedRouteElementProps> = ({ element }) => 
 
   if (userLoading) {
     return null;
+  }
+
+  if (anonymous) {
+    if (user) {
+      return <Navigate to="/" replace />;
+    }
+    return element;
   }
 
   if (user) {

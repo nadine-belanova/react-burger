@@ -41,7 +41,7 @@ const Login = () => {
         toast.error(userError);
       }
     }
-  }, [userLoading, user, navigate, userError, location.state]);
+  }, [userLoading, user, userError]);
 
   return (
     <main className={styles.login}>

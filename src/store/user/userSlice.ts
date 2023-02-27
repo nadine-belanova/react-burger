@@ -23,7 +23,9 @@ export const userSlice = createSlice({
     },
     userError: (state, action) => {
       state.userLoading = false;
-      state.userError = action.payload;
+      if (state.userError !== action.payload) {
+        state.userError = action.payload;
+      }
     },
     clearUser: (state) => {
       state.userLoading = false;

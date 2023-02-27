@@ -52,10 +52,16 @@ function App() {
               <Route path="" element={<PersonalInfoPage />} />
               <Route path="orders" element={<OrdersPage />} />
             </Route>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/login" element={<ProtectedRouteElement anonymous element={<LoginPage />} />} />
+            <Route path="/register" element={<ProtectedRouteElement anonymous element={<RegisterPage />} />} />
+            <Route
+              path="/forgot-password"
+              element={<ProtectedRouteElement anonymous element={<ForgotPasswordPage />} />}
+            />
+            <Route
+              path="/reset-password"
+              element={<ProtectedRouteElement anonymous element={<ResetPasswordPage />} />}
+            />
           </Routes>
           {background && (
             <Routes>
