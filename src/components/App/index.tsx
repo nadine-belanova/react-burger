@@ -49,7 +49,7 @@ function App() {
             <Route path="/" element={<ConstructorPage />} />
             <Route path="/ingredients/:ingredientId" element={<IngredientPage />} />
             <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage />} />}>
-              <Route path="info" element={<PersonalInfoPage />} />
+              <Route path="" element={<PersonalInfoPage />} />
               <Route path="orders" element={<OrdersPage />} />
             </Route>
             <Route path="/login" element={<LoginPage />} />

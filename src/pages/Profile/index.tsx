@@ -29,7 +29,8 @@ const Profile = () => {
       <div className={`${styles.profileNav} ml-9 mr-15`}>
         <div className="text text_type_main-medium pt-4 pr-5 pb-4">
           <NavLink
-            to="/profile/info"
+            to="/profile"
+            end
             className={({ isActive }) =>
               isActive ? styles.profileNavItem : `${styles.profileNavItemInactive} text_color_inactive`
             }
@@ -40,6 +41,7 @@ const Profile = () => {
         <div className="text text_type_main-medium pt-4 pr-5 pb-4">
           <NavLink
             to="/profile/orders"
+            end
             className={({ isActive }) =>
               isActive ? styles.profileNavItem : `${styles.profileNavItemInactive} text_color_inactive`
             }

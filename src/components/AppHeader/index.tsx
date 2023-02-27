@@ -16,24 +16,21 @@ const AppHeader = () => {
         </span>
         <span>Конструктор</span>
       </NavLink>
-      <NavLink
-        to="/profile/orders"
-        className={({ isActive }) => `${isActive ? styles.selectedMenuItem : styles.menuItem} pt-4 pr-5 pb-4 pl-5`}
-      >
+      <div className={`${styles.menuItem} pt-4 pr-5 pb-4 pl-5`}>
         <span className={`${styles.menuItemIcon} mr-2`}>
-          <ListIcon type={useMatch('/profile/orders') ? 'primary' : 'secondary'} />
+          <ListIcon type={'secondary'} />
         </span>
         <span>Лента заказов</span>
-      </NavLink>
+      </div>
       <NavLink to="/" className={styles.logo}>
         <Logo />
       </NavLink>
       <NavLink
-        to="/profile/info"
+        to="/profile"
         className={({ isActive }) => `${isActive ? styles.selectedMenuItem : styles.menuItem} pt-4 pr-5 pb-4 pl-5`}
       >
         <span className={`${styles.menuItemIcon} mr-2`}>
-          <ProfileIcon type={useMatch('/profile/info') ? 'primary' : 'secondary'} />
+          <ProfileIcon type={useMatch({ path: '/profile', end: false }) ? 'primary' : 'secondary'} />
         </span>
         <span>Личный кабинет</span>
       </NavLink>
